@@ -16,6 +16,7 @@ import com.product.colorfulnote.R;
 import com.product.colorfulnote.ui.base.AppBaseActivity;
 import com.product.colorfulnote.ui.fragment.NavigationDrawerFragment;
 
+@Deprecated
 public class MainActivity extends AppBaseActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -39,9 +40,7 @@ public class MainActivity extends AppBaseActivity
         mTitle = getTitle();
 
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
     @Override

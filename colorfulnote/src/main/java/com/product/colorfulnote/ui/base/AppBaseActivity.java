@@ -1,11 +1,43 @@
 package com.product.colorfulnote.ui.base;
 
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+
+import com.product.colorfulnote.R;
 import com.product.common.ui.base.BaseActivity;
 
 /**
  * Created by Administrator on 2016/3/14 0014.
  */
-public class AppBaseActivity extends BaseActivity {
+public abstract class AppBaseActivity extends BaseActivity {
+    protected Toolbar mToolBar;
+    // protected TextView mToolBarTitle;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        mToolBar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolBar != null) {
+//            mToolBar.setBackgroundResource(R.drawable.bg_action_bar);
+            mToolBar.setNavigationIcon(R.drawable.navigation_drawer_open);
+            setSupportActionBar(mToolBar);
+//            mToolBarTitle = (TextView) findViewById(R.id.toolbar_title);
+//            if (mToolBarTitle != null) {
+//                getSupportActionBar().setDisplayShowTitleEnabled(false);
+//            }
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(false);
+        }
+    }
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
