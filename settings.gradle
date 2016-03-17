@@ -1,0 +1,2 @@
+include ':helpshopping', ':colorfulnote'
+include ':AndroidCommon'
