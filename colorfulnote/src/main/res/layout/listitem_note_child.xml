@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/android_height_big"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="@dimen/activity_timeline_listitem_offset"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/android_margin_middle"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/android_divider_height_normal"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:background="@color/grey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="@dimen/android_divider_height_normal"
+                android:layout_height="0dp"
+                android:layout_weight="@integer/comm_range_average"
+                android:background="@color/grey" />
+
+            <View
+                android:id="@+id/ly_line"
+                android:layout_width="@dimen/android_divider_height_normal"
+                android:layout_height="0dp"
+                android:layout_weight="@integer/comm_range_average"
+                android:background="@color/grey" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ly_body_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/android_margin_micro"
+        android:background="@drawable/bg_listitem_body_timeline"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/android_padding_micro"
+        android:paddingLeft="@dimen/android_padding_normal"
+        android:paddingRight="@dimen/android_padding_normal"
+        android:paddingTop="@dimen/android_padding_micro">
+
+        <TextView
+            android:id="@+id/txt_body_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@color/grey" />
+
+        <TextView
+            android:id="@+id/txt_body_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_body_title"
+            android:singleLine="true"
+            android:textColor="@color/grey" />
+    </RelativeLayout>
+</LinearLayout>

@@ -10,7 +10,7 @@ public class GlobalSetting {
     /**
      * 当前app的运行模式
      */
-    public final boolean DEBUG = true;
+    public final boolean mIsDebug = true;
 
     /**
      * 当前app的是否写Log

@@ -11,10 +11,23 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
             minifyEnabled false
+            shrinkResources true
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // signingConfig signingConfigs.release
+        }
+
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
+            // signingConfig signingConfigs.release
         }
     }
 }
