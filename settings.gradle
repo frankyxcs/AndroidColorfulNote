@@ -1,2 +1,2 @@
 include ':helpshopping', ':colorfulnote'
-include ':AndroidCommon'
+include ':AndroidCommon', ':AndroidDaoGenerator'

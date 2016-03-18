@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidColorfulNote.iml" filepath="$PROJECT_DIR$/AndroidColorfulNote.iml" />
       <module fileurl="file://$PROJECT_DIR$/AndroidCommon/AndroidCommon.iml" filepath="$PROJECT_DIR$/AndroidCommon/AndroidCommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AndroidDaoGenerator/AndroidDaoGenerator.iml" filepath="$PROJECT_DIR$/AndroidDaoGenerator/AndroidDaoGenerator.iml" />
       <module fileurl="file://$PROJECT_DIR$/colorfulnote/colorfulnote.iml" filepath="$PROJECT_DIR$/colorfulnote/colorfulnote.iml" />
       <module fileurl="file://$PROJECT_DIR$/helpshopping/helpshopping.iml" filepath="$PROJECT_DIR$/helpshopping/helpshopping.iml" />
     </modules>
