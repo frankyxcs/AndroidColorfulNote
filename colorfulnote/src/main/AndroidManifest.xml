@@ -24,7 +24,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="com.product.colorfulnote.ui.activity.Main2Activity"
+            android:name=".ui.activity.MainV2Activity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

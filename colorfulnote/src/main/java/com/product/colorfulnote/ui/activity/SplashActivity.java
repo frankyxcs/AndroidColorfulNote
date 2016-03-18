@@ -33,13 +33,6 @@ public class SplashActivity extends AppBaseActivity {
         switchView(getGuideSwitch());
     }
 
-//    private void hideTitle() {
-//        // 隐藏android系统的状态栏
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        // 隐藏应用程序的标题栏，即当前activity的标题栏
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//    }
-
     private Boolean getGuideSwitch() {
         return (Boolean) SPUtils.get(this, Constants.SPKey.GUIDE_KEY, false);
     }

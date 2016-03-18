@@ -29,6 +29,7 @@ import com.product.colorfulnote.ui.base.AppBaseFragment;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
+@Deprecated
 public class NavigationDrawerFragment extends AppBaseFragment {
 
     /**
