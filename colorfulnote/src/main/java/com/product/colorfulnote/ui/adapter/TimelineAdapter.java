@@ -141,6 +141,7 @@ public class TimelineAdapter extends BaseExpandableListAdapter {
 
         holder.txtBodyTitle.setText(entiy.getTitle());
         holder.txtBodyContent.setText(entiy.getContent());
+        holder.lyLine.setVisibility(isLastChild ? View.GONE : View.VISIBLE);
         return view;
     }
 
@@ -179,6 +180,8 @@ public class TimelineAdapter extends BaseExpandableListAdapter {
         TextView txtBodyTitle;
         @Bind(R.id.txt_body_content)
         TextView txtBodyContent;
+        @Bind(R.id.ly_line)
+        View lyLine;
 
         ChildViewHolder(View view) {
             ButterKnife.bind(this, view);

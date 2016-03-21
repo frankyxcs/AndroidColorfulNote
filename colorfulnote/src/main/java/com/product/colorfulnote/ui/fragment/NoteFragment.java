@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 
 import com.product.colorfulnote.R;
@@ -23,12 +22,10 @@ import com.product.colorfulnote.ui.base.AppBaseFragment;
 import com.product.colorfulnote.utils.CommonUtils;
 import com.product.common.utils.LogUtils;
 
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -45,22 +42,22 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
     @Bind(R.id.expandable_listview)
     ExpandableListView mExpListview;
 
-    @Bind(R.id.button_add)
-    Button buttonAdd;
-    @Bind(R.id.button_get)
-    Button buttonGet;
-
-    @OnClick(R.id.button_add)
-    void addData() {
-        count++;
-        Note entiy = new Note(null, "标题" + count, "内容" + count, new Date());
-        DBNoteHelper.getInstance().save(entiy);
-    }
-
-    @OnClick(R.id.button_get)
-    void getData() {
-
-    }
+//    @Bind(R.id.button_add)
+//    Button buttonAdd;
+//    @Bind(R.id.button_get)
+//    Button buttonGet;
+//
+//    @OnClick(R.id.button_add)
+//    void addData() {
+//        count++;
+//        Note entiy = new Note(null, "标题" + count, "内容" + count, new Date());
+//        DBNoteHelper.getInstance().save(entiy);
+//    }
+//
+//    @OnClick(R.id.button_get)
+//    void getData() {
+//
+//    }
 
     public NoteFragment() {
     }
@@ -79,7 +76,7 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_note, container, false);
         ButterKnife.bind(this, view);
         initView();
         return view;
@@ -88,6 +85,10 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
     private void initView() {
         mNoteList = DBNoteHelper.getInstance().loadAllByDate();
         mAdapter = new TimelineAdapter(getAppBaseActivity(), mNoteList);
+        mExpListview.setDivider(null);
+        mExpListview.setGroupIndicator(null);
+        mExpListview.setChildIndicator(null);
+        mExpListview.setChildDivider(null);
         mExpListview.setAdapter(mAdapter);
         mExpListview.setOnChildClickListener(this);
         expandGroup();

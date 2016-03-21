@@ -130,7 +130,7 @@ public class MainActivity extends AppBaseActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_note, container, false);
             return rootView;
         }
 
