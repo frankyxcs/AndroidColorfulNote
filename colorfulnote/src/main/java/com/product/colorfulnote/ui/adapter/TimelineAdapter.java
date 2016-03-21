@@ -40,6 +40,15 @@ public class TimelineAdapter extends BaseExpandableListAdapter {
         generateGroup(mChildList);
     }
 
+    public void resetData(final List<Note> noteList) {
+        this.mNoteList = noteList;
+
+        groupBy(mNoteList);
+        generateGroup(mChildList);
+
+        notifyDataSetChanged();
+    }
+
     private void groupBy(final List<Note> noteList) {
         mChildList.clear();
         ArrayList<Note> childData = null;

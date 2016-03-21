@@ -71,7 +71,7 @@ public class MainV2Activity extends AppBaseActivity {
             if (Constants.COMMON_REQUEST_CODE == requestCode) {
                 Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
                 if (null != fragment) {
-                    fragment.onActivityResult(requestCode, resultCode, data);
+                    ((NoteFragment) fragment).onActivityResult(requestCode, resultCode, data);
                 }
             }
         }

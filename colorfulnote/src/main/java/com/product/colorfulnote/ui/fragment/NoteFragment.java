@@ -118,7 +118,8 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
         LogUtils.i(TAG, "onActivityResult requestCode = " + requestCode + " ;resultCode = " + resultCode);
         if (Activity.RESULT_OK == resultCode) {
             if (Constants.COMMON_REQUEST_CODE == requestCode) {
-                mAdapter.notifyDataSetChanged();
+                mNoteList = DBNoteHelper.getInstance().loadAllByDate();
+                mAdapter.resetData(mNoteList);
             }
         }
     }
