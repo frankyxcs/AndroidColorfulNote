@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,6 +17,7 @@ import com.product.colorfulnote.common.Constants;
 import com.product.colorfulnote.db.DBNoteHelper;
 import com.product.colorfulnote.db.gen.Note;
 import com.product.colorfulnote.ui.activity.RecordDetailActivity;
+import com.product.colorfulnote.ui.activity.RecordingActivity;
 import com.product.colorfulnote.ui.adapter.TimelineAdapter;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
 import com.product.colorfulnote.utils.CommonUtils;
@@ -69,6 +73,8 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        // Indicate that this fragment would like to influence the set of actions in the action bar.
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -122,5 +128,25 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
                 mAdapter.resetData(mNoteList);
             }
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // If the drawer is open, show the global app actions in the action bar. See also
+        // showGlobalContextActionBar, which controls the top-left area of the action bar.
+
+        inflater.inflate(R.menu.menu_add, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_add) {
+            getAppBaseActivity().openActivityForResult(
+                    RecordingActivity.class, Constants.COMMON_REQUEST_CODE, null);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
