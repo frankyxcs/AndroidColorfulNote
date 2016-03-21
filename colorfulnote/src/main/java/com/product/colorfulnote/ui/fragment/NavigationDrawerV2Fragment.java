@@ -1,9 +1,6 @@
 package com.product.colorfulnote.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,22 +39,22 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment {
         super.onSaveInstanceState(outState);
     }
 
-    public void setUp(DrawerLayout drawerLayout, Toolbar toolbar) {
-        //创建返回键，并实现打开关/闭监听
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
-                getActivity(), drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-        };
-
-        drawerToggle.syncState();
-        drawerLayout.setDrawerListener(drawerToggle);
-    }
+//    public void setUp(DrawerLayout drawerLayout, Toolbar toolbar) {
+//        //创建返回键，并实现打开关/闭监听
+//        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
+//                getActivity(), drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//            }
+//
+//            @Override
+//            public void onDrawerClosed(View drawerView) {
+//                super.onDrawerClosed(drawerView);
+//            }
+//        };
+//
+//        drawerToggle.syncState();
+//        drawerLayout.setDrawerListener(drawerToggle);
+//    }
 }

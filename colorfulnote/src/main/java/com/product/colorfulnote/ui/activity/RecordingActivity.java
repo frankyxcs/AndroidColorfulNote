@@ -10,6 +10,7 @@ import com.product.colorfulnote.db.DBNoteHelper;
 import com.product.colorfulnote.db.gen.Note;
 import com.product.colorfulnote.ui.base.AppBaseActivity;
 import com.product.colorfulnote.ui.view.ShakeButton;
+import com.product.colorfulnote.utils.CommonUtils;
 import com.product.common.interfaces.IValid;
 import com.product.common.utils.StringUtils;
 
@@ -49,6 +50,10 @@ public class RecordingActivity extends AppBaseActivity implements IValid {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recording);
         ButterKnife.bind(this);
+
+        mNote = (Note) CommonUtils.getMaskSerializable(getIntent());
+        mEtTitle.setText(null != mNote ? mNote.getTitle() : null);
+        mEtContent.setText(null != mNote ? mNote.getContent() : null);
     }
 
     @Override

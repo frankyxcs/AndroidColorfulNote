@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.product.colorfulnote.R;
 import com.product.colorfulnote.common.interfaces.ICycle;
-import com.product.colorfulnote.ui.activity.MainActivity;
+import com.product.colorfulnote.ui.activity.MainV2Activity;
 import com.product.colorfulnote.ui.activity.SplashActivity;
 import com.product.common.ui.base.BaseActivity;
 import com.product.common.ui.view.ScrollViewPager;
@@ -183,7 +183,7 @@ public class GuideLayer extends RelativeLayout implements ICycle {
                     @Override
                     public void onClick(View view) {
                         // TODO Auto-generated method stub
-                        ((BaseActivity) mContext).openActivity(MainActivity.class);
+                        ((BaseActivity) mContext).openActivity(MainV2Activity.class);
                         ((SplashActivity) mContext).finish();
                     }
                 });

@@ -1,5 +1,7 @@
 package com.product.colorfulnote.ui.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import com.product.colorfulnote.ui.activity.RecordDetailActivity;
 import com.product.colorfulnote.ui.adapter.TimelineAdapter;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
 import com.product.colorfulnote.utils.CommonUtils;
+import com.product.common.utils.LogUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -107,5 +110,16 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
         getAppBaseActivity().openActivityForResult(RecordDetailActivity.class,
                 Constants.COMMON_REQUEST_CODE, CommonUtils.getMaskBundle(entiy));
         return true;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.i(TAG, "onActivityResult requestCode = " + requestCode + " ;resultCode = " + resultCode);
+        if (Activity.RESULT_OK == resultCode) {
+            if (Constants.COMMON_REQUEST_CODE == requestCode) {
+                mAdapter.notifyDataSetChanged();
+            }
+        }
     }
 }
