@@ -45,10 +45,10 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
     private static final String TAG = NoteFragment.class.getSimpleName();
     private static final int PAGE = 1;
     private static final int PAGE_COUNT = 1;
+    private static final long DELAY = 100;
+
     private TimelineAdapter mAdapter;
-    // private List<Note> mNoteList;
     private int mPage = PAGE;
-    // private int count = 0;
 
     @Bind(R.id.expandable_listview)
     PullToRefreshExpandableListView mExpListview;
@@ -116,7 +116,6 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
             public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
                 mExpListview.getLoadingLayoutProxy().setLastUpdatedLabel(
                         TimeUtils.getCurrentTimeInString(TimeUtils.DATE_FORMAT_MM));
-
                 pullDown();
             }
 
@@ -124,7 +123,6 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
             public void onPullUpToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
                 mExpListview.getLoadingLayoutProxy().setLastUpdatedLabel(
                         TimeUtils.getCurrentTimeInString(TimeUtils.DATE_FORMAT_MM));
-
                 pullUp();
             }
         });
@@ -168,7 +166,6 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
      * 重新设置xlistview的状态
      */
     private void refreshComplete() {
-        // LogUtils.i(TAG, "refreshComplete");
         mExpListview.onRefreshComplete();
     }
 
@@ -176,13 +173,12 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
      * 快速刷新回调
      */
     private void refreshCompleteQuick() {
-        // LogUtils.i(TAG, "refreshComplete2");
         mExpListview.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mExpListview.onRefreshComplete();
             }
-        }, 100);
+        }, DELAY);
     }
 
     private void pullDown() {

@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/android_height_big"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/android_padding_middle"
+    android:paddingRight="@dimen/android_padding_middle">
 
     <RelativeLayout
         android:layout_width="@dimen/activity_timeline_listitem_offset"
@@ -43,7 +45,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="@dimen/android_margin_micro"
+        android:layout_marginBottom="@dimen/android_margin_micro"
+        android:layout_marginRight="@dimen/android_margin_micro"
+        android:layout_marginTop="@dimen/android_margin_micro"
         android:background="@drawable/listitem_timeline_border"
         android:orientation="vertical"
         android:paddingBottom="@dimen/android_padding_micro"

@@ -9,6 +9,7 @@ import android.view.animation.CycleInterpolator;
 import android.widget.Button;
 
 import com.product.colorfulnote.R;
+import com.product.colorfulnote.ui.helper.ThemeHelper;
 import com.product.common.utils.AnimatorUtils;
 
 /**
@@ -18,14 +19,17 @@ public class ShakeButton extends Button {
 
     public ShakeButton(Context context) {
         super(context);
+        setBackgroundResource(ThemeHelper.getInstance().getBtnColor());
     }
 
     public ShakeButton(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setBackgroundResource(ThemeHelper.getInstance().getBtnColor());
     }
 
     public ShakeButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setBackgroundResource(ThemeHelper.getInstance().getBtnColor());
     }
 
     public void shake() {

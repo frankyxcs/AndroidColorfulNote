@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.product.colorfulnote.R;
 import com.product.colorfulnote.db.gen.Note;
 import com.product.colorfulnote.ui.entiy.NoteEntiy;
+import com.product.colorfulnote.ui.helper.ThemeHelper;
 import com.product.common.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -123,6 +124,8 @@ public class TimelineAdapter extends BaseExpandableListAdapter {
             holder = (GroupViewHolder) view.getTag();
         }
 
+        view.setBackgroundResource(ThemeHelper.getInstance().getGroupBgColor());
+        holder.ivTitle.setBackgroundResource(ThemeHelper.getInstance().getGroupIconBg());
         holder.txtTitleDate.setText(TimeUtils.getTime(entiy.getNote().getDate().getTime(), TimeUtils.DATE_FORMAT_DAY));
         holder.txtTitleNum.setText(String.format(mContext.getString(R.string.label_group_num), entiy.getCount()));
         return view;

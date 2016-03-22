@@ -5,7 +5,8 @@
     android:background="@color/blue_half_100"
     android:orientation="horizontal"
     android:paddingBottom="@dimen/android_padding_normal"
-    android:paddingRight="@dimen/android_padding_normal"
+    android:paddingLeft="@dimen/android_padding_middle"
+    android:paddingRight="@dimen/android_padding_middle"
     android:paddingTop="@dimen/android_padding_normal">
 
     <ImageView

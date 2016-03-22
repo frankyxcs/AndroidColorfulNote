@@ -2,8 +2,10 @@ package com.product.colorfulnote.ui.base;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.product.colorfulnote.R;
+import com.product.colorfulnote.ui.helper.ThemeHelper;
 import com.product.common.ui.base.BaseActivity;
 
 /**
@@ -27,9 +29,15 @@ public abstract class AppBaseActivity extends BaseActivity {
     private void initToolbar() {
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolBar != null) {
-//            mToolBar.setBackgroundResource(R.drawable.bg_action_bar);
-            mToolBar.setNavigationIcon(R.drawable.navigation_drawer_open);
             setSupportActionBar(mToolBar);
+            mToolBar.setBackgroundResource(ThemeHelper.getInstance().getTitleBgColor());
+            mToolBar.setNavigationIcon(R.drawable.navigation_drawer_open);
+            mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
 //            mToolBarTitle = (TextView) findViewById(R.id.toolbar_title);
 //            if (mToolBarTitle != null) {
 //                getSupportActionBar().setDisplayShowTitleEnabled(false);
