@@ -33,8 +33,12 @@ public class SplashActivity extends AppBaseActivity {
         switchView(getGuideSwitch());
     }
 
+    /**
+     * @return true 显示闪屏界面
+     */
     private Boolean getGuideSwitch() {
-        return (Boolean) SPUtils.get(this, Constants.SPKey.GUIDE_KEY, false);
+        // return (Boolean) SPUtils.get(this, Constants.SPKey.GUIDE_KEY, false);
+        return true;
     }
 
     private void switchView(Boolean havedShowGuide) {
