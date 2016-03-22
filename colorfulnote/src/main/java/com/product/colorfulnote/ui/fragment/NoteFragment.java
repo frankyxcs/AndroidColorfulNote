@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 import com.product.colorfulnote.R;
 import com.product.colorfulnote.common.Constants;
 import com.product.colorfulnote.db.DBNoteHelper;
@@ -21,11 +23,17 @@ import com.product.colorfulnote.ui.adapter.TimelineAdapter;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
 import com.product.colorfulnote.utils.CommonUtils;
 import com.product.common.utils.LogUtils;
+import com.product.common.utils.TimeUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+//import android.widget.ExpandableListView;
+
+// import android.widget.ExpandableListView;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -35,13 +43,15 @@ import butterknife.ButterKnife;
 public class NoteFragment extends AppBaseFragment implements ExpandableListView.OnChildClickListener,
         ExpandableListView.OnGroupClickListener {
     private static final String TAG = NoteFragment.class.getSimpleName();
+    private static final int PAGE = 1;
+    private static final int PAGE_COUNT = 1;
     private TimelineAdapter mAdapter;
-    private List<Note> mNoteList;
-
-    private int count = 0;
+    // private List<Note> mNoteList;
+    private int mPage = PAGE;
+    // private int count = 0;
 
     @Bind(R.id.expandable_listview)
-    ExpandableListView mExpListview;
+    PullToRefreshExpandableListView mExpListview;
 
 //    @Bind(R.id.button_add)
 //    Button buttonAdd;
@@ -90,15 +100,35 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
     }
 
     private void initView() {
-        mNoteList = DBNoteHelper.getInstance().loadAllByDate();
-        mAdapter = new TimelineAdapter(getAppBaseActivity(), mNoteList);
-        mExpListview.setDivider(null);
-        mExpListview.setGroupIndicator(null);
-        mExpListview.setChildIndicator(null);
-        mExpListview.setChildDivider(null);
-        mExpListview.setAdapter(mAdapter);
-        mExpListview.setOnGroupClickListener(this);
-        mExpListview.setOnChildClickListener(this);
+        // List<Note> noteList = DBNoteHelper.getInstance().loadAllByDate();
+        mAdapter = new TimelineAdapter(getAppBaseActivity(), getGroupNotes(PAGE));
+        mExpListview.getRefreshableView().setDivider(null);
+        mExpListview.getRefreshableView().setGroupIndicator(null);
+        mExpListview.getRefreshableView().setChildIndicator(null);
+        mExpListview.getRefreshableView().setChildDivider(null);
+        mExpListview.getRefreshableView().setAdapter(mAdapter);
+        mExpListview.getRefreshableView().setOnGroupClickListener(this);
+        mExpListview.getRefreshableView().setOnChildClickListener(this);
+
+        mExpListview.setMode(PullToRefreshBase.Mode.BOTH);
+        mExpListview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+                mExpListview.getLoadingLayoutProxy().setLastUpdatedLabel(
+                        TimeUtils.getCurrentTimeInString(TimeUtils.DATE_FORMAT_MM));
+
+                pullDown();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+                mExpListview.getLoadingLayoutProxy().setLastUpdatedLabel(
+                        TimeUtils.getCurrentTimeInString(TimeUtils.DATE_FORMAT_MM));
+
+                pullUp();
+            }
+        });
+
         expandGroup();
     }
 
@@ -107,9 +137,73 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
         super.onSaveInstanceState(outState);
     }
 
+    private ArrayList<Note> getGroupNotes(final int groupPage) {
+        List<Note> noteList = DBNoteHelper.getInstance().loadAllByDate();
+        return groupBy(noteList, groupPage);
+    }
+
+    private ArrayList<Note> groupBy(final List<Note> noteList, final int groupPage) {
+        ArrayList<Note> childData = new ArrayList<>();
+        String preDate = null;
+        int count = 0;
+
+        for (Note entiy : noteList) {
+            String date = TimeUtils.getTime(entiy.getDate().getTime(), TimeUtils.DATE_FORMAT_DAY);
+
+            // 根据日期分组
+            if (null == preDate || !preDate.equals(date)) {
+                count++;
+            }
+            if (count > groupPage) {
+                break;
+            }
+
+            childData.add(entiy);
+            preDate = date;
+        }
+        return childData;
+    }
+
+    /**
+     * 重新设置xlistview的状态
+     */
+    private void refreshComplete() {
+        // LogUtils.i(TAG, "refreshComplete");
+        mExpListview.onRefreshComplete();
+    }
+
+    /**
+     * 快速刷新回调
+     */
+    private void refreshCompleteQuick() {
+        // LogUtils.i(TAG, "refreshComplete2");
+        mExpListview.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mExpListview.onRefreshComplete();
+            }
+        }, 100);
+    }
+
+    private void pullDown() {
+        mPage = PAGE;
+        LogUtils.i(TAG, "pullDown mPage = " + mPage);
+        mAdapter.resetData(getGroupNotes(mPage));
+        expandGroup();
+        refreshCompleteQuick();
+    }
+
+    private void pullUp() {
+        mPage += PAGE_COUNT;
+        LogUtils.i(TAG, "pullUp mPage = " + mPage);
+        mAdapter.resetData(getGroupNotes(mPage));
+        expandGroup();
+        refreshCompleteQuick();
+    }
+
     private void expandGroup() {
         for (int i = 0; i < mAdapter.getGroupCount(); i++) {
-            mExpListview.expandGroup(i);
+            mExpListview.getRefreshableView().expandGroup(i);
         }
     }
 
@@ -132,8 +226,7 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
         LogUtils.i(TAG, "onActivityResult requestCode = " + requestCode + " ;resultCode = " + resultCode);
         if (Activity.RESULT_OK == resultCode) {
             if (Constants.COMMON_REQUEST_CODE == requestCode) {
-                mNoteList = DBNoteHelper.getInstance().loadAllByDate();
-                mAdapter.resetData(mNoteList);
+                mAdapter.resetData(getGroupNotes(mPage));
             }
         }
     }

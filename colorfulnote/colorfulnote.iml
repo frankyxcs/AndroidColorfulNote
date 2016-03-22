@@ -119,5 +119,6 @@
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="module" module-name="AndroidCommon" exported="" />
     <orderEntry type="module" module-name="AndroidDaoGenerator" exported="" />
+    <orderEntry type="module" module-name="AndroidPullToRefresh" exported="" />
   </component>
 </module>
