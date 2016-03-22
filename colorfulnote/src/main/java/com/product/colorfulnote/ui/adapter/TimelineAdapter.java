@@ -145,6 +145,7 @@ public class TimelineAdapter extends BaseExpandableListAdapter {
         }
 
         holder.txtBodyTitle.setText(entiy.getTitle());
+        holder.txtBodyData.setText(TimeUtils.getTime(entiy.getDate().getTime(), TimeUtils.DATE_FORMAT_HMS));
         holder.txtBodyContent.setText(entiy.getContent());
         holder.lyLine.setVisibility(isLastChild ? View.GONE : View.VISIBLE);
         return view;
@@ -183,6 +184,8 @@ public class TimelineAdapter extends BaseExpandableListAdapter {
     static class ChildViewHolder {
         @Bind(R.id.txt_body_title)
         TextView txtBodyTitle;
+        @Bind(R.id.txt_body_data)
+        TextView txtBodyData;
         @Bind(R.id.txt_body_content)
         TextView txtBodyContent;
         @Bind(R.id.ly_line)
