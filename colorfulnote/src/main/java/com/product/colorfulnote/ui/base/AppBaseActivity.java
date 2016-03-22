@@ -31,7 +31,7 @@ public abstract class AppBaseActivity extends BaseActivity {
         if (mToolBar != null) {
             setSupportActionBar(mToolBar);
             mToolBar.setBackgroundResource(ThemeHelper.getInstance().getTitleBgColor());
-            mToolBar.setNavigationIcon(R.drawable.ic_arrow_back_white_36dp);
+            mToolBar.setNavigationIcon(R.drawable.ic_action_navigation_arrow_back);
             mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
