@@ -24,12 +24,14 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/3/18 0018.
  */
 public class TimelineAdapter extends BaseExpandableListAdapter {
+    private Context mContext;
     private LayoutInflater mInflater;
     private List<Note> mNoteList;
     private List<NoteEntiy> mGroupList;
     private List<List<Note>> mChildList;
 
     public TimelineAdapter(Context context, List<Note> noteList) {
+        this.mContext = context;
         this.mInflater = ((Activity) context).getLayoutInflater();
         this.mNoteList = noteList;
 
@@ -110,7 +112,7 @@ public class TimelineAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View view, ViewGroup viewGroup) {
-        Note entiy = ((NoteEntiy) getGroup(groupPosition)).getNote();
+        NoteEntiy entiy = (NoteEntiy) getGroup(groupPosition);
 
         GroupViewHolder holder;
         if (null == view) {
@@ -121,8 +123,8 @@ public class TimelineAdapter extends BaseExpandableListAdapter {
             holder = (GroupViewHolder) view.getTag();
         }
 
-        holder.txtTitleDate.setText(TimeUtils.getTime(entiy.getDate().getTime(), TimeUtils.DATE_FORMAT_DAY));
-        holder.txtTitleNum.setText(entiy.getContent());
+        holder.txtTitleDate.setText(TimeUtils.getTime(entiy.getNote().getDate().getTime(), TimeUtils.DATE_FORMAT_DAY));
+        holder.txtTitleNum.setText(String.format(mContext.getString(R.string.label_group_num), entiy.getCount()));
         return view;
     }
 

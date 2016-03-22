@@ -32,7 +32,8 @@ import butterknife.ButterKnife;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NoteFragment extends AppBaseFragment implements ExpandableListView.OnChildClickListener {
+public class NoteFragment extends AppBaseFragment implements ExpandableListView.OnChildClickListener,
+        ExpandableListView.OnGroupClickListener {
     private static final String TAG = NoteFragment.class.getSimpleName();
     private TimelineAdapter mAdapter;
     private List<Note> mNoteList;
@@ -59,19 +60,9 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
 //
 //    }
 
-    public NoteFragment() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // Indicate that this fragment would like to influence the set of actions in the action bar.
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -82,6 +73,22 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
         return view;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // Indicate that this fragment would like to influence the set of actions in the action bar.
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    public NoteFragment() {
+    }
+
     private void initView() {
         mNoteList = DBNoteHelper.getInstance().loadAllByDate();
         mAdapter = new TimelineAdapter(getAppBaseActivity(), mNoteList);
@@ -90,6 +97,7 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
         mExpListview.setChildIndicator(null);
         mExpListview.setChildDivider(null);
         mExpListview.setAdapter(mAdapter);
+        mExpListview.setOnGroupClickListener(this);
         mExpListview.setOnChildClickListener(this);
         expandGroup();
     }
@@ -99,16 +107,15 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
     private void expandGroup() {
         for (int i = 0; i < mAdapter.getGroupCount(); i++) {
             mExpListview.expandGroup(i);
         }
+    }
+
+    @Override
+    public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+        return true; // 列表都展开显示
     }
 
     @Override

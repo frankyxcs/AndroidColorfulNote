@@ -1,2 +1,3 @@
 include ':helpshopping', ':colorfulnote'
-include ':AndroidCommon', ':AndroidDaoGenerator'
+include ':AndroidCommon', ':AndroidDaoGenerator', ':AndroidPullToRefresh'
+
