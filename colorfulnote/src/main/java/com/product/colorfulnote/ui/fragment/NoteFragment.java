@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
@@ -50,25 +51,11 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
     private TimelineAdapter mAdapter;
     private int mPage = PAGE;
 
+    @Bind(R.id.txt_empty)
+    TextView mTxtEmpty;
+
     @Bind(R.id.expandable_listview)
     PullToRefreshExpandableListView mExpListview;
-
-//    @Bind(R.id.button_add)
-//    Button buttonAdd;
-//    @Bind(R.id.button_get)
-//    Button buttonGet;
-//
-//    @OnClick(R.id.button_add)
-//    void addData() {
-//        count++;
-//        Note entiy = new Note(null, "标题" + count, "内容" + count, new Date());
-//        DBNoteHelper.getInstance().save(entiy);
-//    }
-//
-//    @OnClick(R.id.button_get)
-//    void getData() {
-//
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,8 +87,11 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
     }
 
     private void initView() {
-        // List<Note> noteList = DBNoteHelper.getInstance().loadAllByDate();
-        mAdapter = new TimelineAdapter(getAppBaseActivity(), getGroupNotes(PAGE));
+        ArrayList<Note> noteList = getGroupNotes(PAGE);
+        boolean isEmpty = (noteList == null || noteList.isEmpty() ? true : false);
+        mTxtEmpty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+
+        mAdapter = new TimelineAdapter(getAppBaseActivity(), noteList);
         mExpListview.getRefreshableView().setDivider(null);
         mExpListview.getRefreshableView().setGroupIndicator(null);
         mExpListview.getRefreshableView().setChildIndicator(null);

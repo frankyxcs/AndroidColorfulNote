@@ -22,18 +22,20 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_main2">Main2Activity</string>
 
+    <string name="note_empty_tips">没有日记，赶快点击右上角添加日记吧</string>
+
     <!-- MainActivity start -->
     <!-- MainActivity end -->
 
     <!-- RecordingActivity start -->
     <string name="title_activity_recording">记录</string>
-    <string name="prompt_record_title">快来为你的日记取一个名字吧</string>
-    <string name="prompt_record_note">快来记录你的心情吧</string>
+    <string name="prompt_record_title">取个名字吧</string>
+    <string name="prompt_record_note">记录心情日记吧</string>
     <string name="action_submit">提交</string>
     <string name="label_group_num">共%s日记</string>
 
-    <string name="error_invalid_title">心得标题为空</string>
-    <string name="error_invalid_content">心得内容为空</string>
+    <string name="error_invalid_title">日记标题为空</string>
+    <string name="error_invalid_content">日记内容为空</string>
 
     <string name="label_ra_title_defaut">今天写了一篇日记，美哒哒</string>
     <string name="label_ra_content_defaut">TA很懒，什么都没有留下</string>

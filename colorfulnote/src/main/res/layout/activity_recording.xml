@@ -52,7 +52,7 @@
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/android_btn_height"
-                android:layout_marginTop="@dimen/android_margin_huge"
+                android:layout_marginTop="@dimen/size100"
                 android:background="@drawable/selector_btn_blue"
                 android:text="@string/action_submit"
                 android:textColor="@color/white"
