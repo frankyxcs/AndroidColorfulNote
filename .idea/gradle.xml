@@ -13,7 +13,6 @@
             <option value="$PROJECT_DIR$/AndroidDaoGenerator" />
             <option value="$PROJECT_DIR$/AndroidPullToRefresh" />
             <option value="$PROJECT_DIR$/colorfulnote" />
-            <option value="$PROJECT_DIR$/helpshopping" />
           </set>
         </option>
       </GradleProjectSettings>

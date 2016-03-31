@@ -1,6 +1,12 @@
 package com.product.colorfulnote.exception;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+
+import com.product.colorfulnote.BaseApplication;
+import com.product.colorfulnote.ui.activity.SplashActivity;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 
@@ -56,14 +62,14 @@ public class CrashException implements UncaughtExceptionHandler {
         ex.printStackTrace();
 
         // 重新启动应用
-//        int requestCode = 0;
-//        PendingIntent pIntent = PendingIntent.getActivity(mContext, requestCode,
-//                new Intent(mContext, SplashActivity.class), PendingIntent.FLAG_CANCEL_CURRENT);
-//        AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-//        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + RESTART_DELAY, pIntent);
-//
-//        ((BaseApplication) mContext.getApplicationContext()).exitApp(true);
-//        // AppManager.getInstance().appExit(mContext, true);
+        int requestCode = 0;
+        PendingIntent pIntent = PendingIntent.getActivity(mContext, requestCode,
+                new Intent(mContext, SplashActivity.class), PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + RESTART_DELAY, pIntent);
+
+        ((BaseApplication) mContext.getApplicationContext()).exitApp(true);
+        // AppManager.getInstance().appExit(mContext, true);
         return true;
     }
 

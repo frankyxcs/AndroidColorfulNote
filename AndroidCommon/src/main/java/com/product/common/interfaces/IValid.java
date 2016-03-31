@@ -6,5 +6,5 @@ public interface IValid {
      * 有效返回 true
      * 无效返回 false
      */
-    boolean isValid();
+    public boolean isValid();
 }
