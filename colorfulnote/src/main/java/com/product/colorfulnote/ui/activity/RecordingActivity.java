@@ -2,6 +2,7 @@ package com.product.colorfulnote.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.EditText;
 
@@ -61,11 +62,14 @@ public class RecordingActivity extends AppBaseActivity implements IValid {
         mTitle = mEtTitle.getText().toString().trim();
         mContent = mEtContent.getText().toString().trim();
 
+        // CollapsingToolbarLayout
         if (StringUtils.isEmpty(mTitle)) {
-            showToast(R.string.error_invalid_title);
+            // showToast(R.string.error_invalid_title);
+            Snackbar.make(mBtnSubmit, R.string.error_invalid_title, Snackbar.LENGTH_LONG).show();
             mBtnSubmit.shake();
         } else if (StringUtils.isEmpty(mContent)) {
-            showToast(R.string.error_invalid_content);
+            // showToast(R.string.error_invalid_content);
+            Snackbar.make(mBtnSubmit, R.string.error_invalid_content, Snackbar.LENGTH_LONG).show();
             mBtnSubmit.shake();
         } else {
             return true;

@@ -10,7 +10,7 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/android_padding_normal"
-        android:paddingTop="@dimen/android_padding_normal"
+        android:paddingBottom="@dimen/android_padding_middle"
+        android:paddingTop="@dimen/android_padding_middle"
         android:text="@string/label_navi_login" />
 </LinearLayout>

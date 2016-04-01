@@ -19,16 +19,16 @@
 
     <TextView
         android:id="@+id/txt_title_date"
+        style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textColor="@color/black" />
+        android:layout_centerInParent="true" />
 
     <TextView
         android:id="@+id/txt_title_num"
+        style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:textColor="@color/black" />
+        android:layout_centerVertical="true" />
 </RelativeLayout>
