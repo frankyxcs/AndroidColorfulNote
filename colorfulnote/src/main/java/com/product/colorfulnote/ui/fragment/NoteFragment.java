@@ -213,6 +213,7 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
         if (Activity.RESULT_OK == resultCode) {
             if (Constants.COMMON_REQUEST_CODE == requestCode) {
                 mAdapter.resetData(getGroupNotes(mPage));
+                expandGroup();
             }
         }
     }

@@ -1,12 +1,26 @@
 package com.product.colorfulnote.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.product.colorfulnote.R;
+import com.product.colorfulnote.ui.adapter.NavigationAdapter;
+import com.product.colorfulnote.ui.adapter.RecycleViewDivider;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
+import com.product.colorfulnote.ui.helper.ThemeHelper;
+import com.product.colorfulnote.utils.CommonUtils;
+
+import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -14,6 +28,15 @@ import com.product.colorfulnote.ui.base.AppBaseFragment;
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
 public class NavigationDrawerV2Fragment extends AppBaseFragment {
+    private ArrayList<String> mDataset;
+    private NavigationAdapter mAdapter;
+
+    @Bind(R.id.iv_portrait)
+    SimpleDraweeView mIvPortrait;
+    @Bind(R.id.txt_name)
+    TextView mTxtName;
+    @Bind(R.id.lv_navigation)
+    RecyclerView mRecyclerView;
 
     public NavigationDrawerV2Fragment() {
     }
@@ -30,13 +53,39 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        View view = inflater.inflate(R.layout.fragment_navigation_drawer2, container, false);
+        ButterKnife.bind(this, view);
+
+        mDataset = new ArrayList<>();
+        mDataset.add(getString(R.string.label_navi_login));
+        mDataset.add(getString(R.string.label_navi_about));
+        mAdapter = new NavigationAdapter(mDataset);
+
+        String uri = "http://www.wzfzl.cn/uploads/allimg/120206/1_120206130502_2.jpg";
+        CommonUtils.loadImage(mIvPortrait, uri);
+        mTxtName.setText("汤加");
+
+        // 设置固定大小
+        mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.addItemDecoration(new RecycleViewDivider(
+                getActivity(), LinearLayoutManager.HORIZONTAL,
+                getResources().getDimensionPixelOffset(R.dimen.android_divider_height_normal),
+                ContextCompat.getColor(getActivity(), ThemeHelper.getInstance().getGroupBgColor())));
+        mRecyclerView.setAdapter(mAdapter);
         return view;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
 //    public void setUp(DrawerLayout drawerLayout, Toolbar toolbar) {

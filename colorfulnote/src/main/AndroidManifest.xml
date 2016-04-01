@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.product.colorfulnote">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERN\AL_STORAGE" />
+
     <application
         android:name="com.product.colorfulnote.BaseApplication"
         android:allowBackup="true"

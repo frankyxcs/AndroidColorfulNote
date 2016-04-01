@@ -1,5 +1,7 @@
 <resources>
 
+    <color name="bg_navigation">#ccc</color>
+
     <color name="black_overlay">#66000000</color>
     <color name="black_100">#555555</color>
     <color name="black_200">#363636</color>

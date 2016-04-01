@@ -4,14 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.product.colorfulnote.common.Constants;
+import com.product.colorfulnote.module.fresco.FrescoManager;
 import com.product.common.utils.AppUtils;
 import com.product.common.utils.FileUtils;
 import com.product.common.utils.LogUtils;
 import com.product.common.utils.SDCardUtils;
 
 import java.io.Serializable;
-
 
 
 /**
@@ -83,16 +84,16 @@ public class CommonUtils {
 //    public static void loadImage(ImageView view, String uri) {
 //        ImageLoaderManager.getInstance().loadImage(view, API.getPicUrl(uri));
 //    }
-//
-//    /**
-//     * 设置图片显示
-//     *
-//     * @param view
-//     * @param uri
-//     */
-//    public static void loadImage(SimpleDraweeView view, String uri) {
-//        FrescoManager.getInstance().loadImage(view, API.getPicUrl(uri));
-//    }
+
+    /**
+     * 设置图片显示
+     *
+     * @param view
+     * @param uri
+     */
+    public static void loadImage(SimpleDraweeView view, String uri) {
+        FrescoManager.getInstance().loadImage(view, uri);
+    }
 
 //    /**
 //     * 设置广告图片显示

@@ -45,6 +45,8 @@ dependencies {
     // compile 'cn.trinea.android.common:trinea-android-common:4.2.15'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.facebook.fresco:fresco:0.9.0+'
+    compile 'com.facebook.fresco:imagepipeline:0.5.0+'
+    compile 'com.facebook.fresco:imagepipeline-okhttp:0.5.0'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     // compile 'de.greenrobot:greendao:2.0.0'
     compile 'com.jakewharton:butterknife:7.0.1'

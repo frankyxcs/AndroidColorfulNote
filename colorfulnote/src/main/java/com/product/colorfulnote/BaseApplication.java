@@ -3,6 +3,7 @@ package com.product.colorfulnote;
 import android.app.Application;
 
 import com.product.colorfulnote.db.DBManager;
+import com.product.colorfulnote.module.fresco.FrescoManager;
 import com.product.common.manager.AppManager;
 import com.product.common.utils.LogUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -32,7 +33,7 @@ public class BaseApplication extends Application {
 
         DBManager.getInstance().init(this);
 //        ImageLoaderManager.getInstance().init(this);
-//        FrescoManager.getInstance().init(this);
+        FrescoManager.getInstance().init(this);
 //        VolleyManager.getInstance().init(this);
 //        Notify.getInstance().init(this);
 //
@@ -43,7 +44,7 @@ public class BaseApplication extends Application {
     public void exitApp(boolean isKillProcess) {
         MobclickAgent.onKillProcess(this);
 //        ImageLoaderManager.getInstance().shutDown();
-//        FrescoManager.getInstance().shutDown();
+        FrescoManager.getInstance().shutDown();
 //        VolleyManager.getInstance().shutDown();
         AppManager.getInstance().appExit(this, isKillProcess);
     }
