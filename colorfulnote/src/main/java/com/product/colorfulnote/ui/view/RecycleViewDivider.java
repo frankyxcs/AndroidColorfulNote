@@ -1,4 +1,4 @@
-package com.product.colorfulnote.ui.adapter;
+package com.product.colorfulnote.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;

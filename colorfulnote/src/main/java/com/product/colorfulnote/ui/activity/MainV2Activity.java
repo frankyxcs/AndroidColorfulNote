@@ -35,7 +35,7 @@ public class MainV2Activity extends AppBaseActivity {
     }
 
     private void initViews() {
-        setTitle(R.string.app_name);
+        // setTitle(R.string.app_name);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, Fragment.instantiate(this, NoteFragment.class.getName(), null))

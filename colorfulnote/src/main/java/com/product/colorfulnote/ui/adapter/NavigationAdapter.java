@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.product.colorfulnote.R;
+import com.product.colorfulnote.common.interfaces.OnRecyclerViewItemClickListener;
 
 import java.util.ArrayList;
 
@@ -15,8 +16,9 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/4/1 0001.
  */
-public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.ViewHolder> {
+public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
     private ArrayList<String> mDataset;
+    private OnRecyclerViewItemClickListener mItemClickListener;
 
     public NavigationAdapter(ArrayList<String> dataset) {
         this.mDataset = dataset;
@@ -30,12 +32,15 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = View.inflate(parent.getContext(), R.layout.listitem_navigation, null);
+        view.setOnClickListener(this);
+        view.setOnLongClickListener(this);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.itemView.setTag(mDataset.get(position));
         holder.txtTitle.setText(mDataset.get(position));
     }
 
@@ -43,9 +48,28 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
         @Bind(R.id.txt_title)
         TextView txtTitle;
 
-        public ViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        public ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
+    }
+
+    public void setItemClickListener(OnRecyclerViewItemClickListener itemClickListener) {
+        this.mItemClickListener = itemClickListener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (null != mItemClickListener) {
+            mItemClickListener.onItemClick(view, view.getTag());
+        }
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        if (null != mItemClickListener) {
+            mItemClickListener.onItemLongClick(view, view.getTag());
+        }
+        return true;
     }
 }

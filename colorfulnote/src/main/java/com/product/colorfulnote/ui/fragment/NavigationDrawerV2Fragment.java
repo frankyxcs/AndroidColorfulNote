@@ -2,20 +2,23 @@ package com.product.colorfulnote.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.product.colorfulnote.R;
+import com.product.colorfulnote.common.interfaces.OnRecyclerViewItemClickListener;
 import com.product.colorfulnote.ui.adapter.NavigationAdapter;
-import com.product.colorfulnote.ui.adapter.RecycleViewDivider;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
 import com.product.colorfulnote.ui.helper.ThemeHelper;
-import com.product.colorfulnote.utils.CommonUtils;
+import com.product.colorfulnote.ui.view.RecycleViewDivider;
+import com.product.common.interfaces.IInit;
 
 import java.util.ArrayList;
 
@@ -27,7 +30,7 @@ import butterknife.ButterKnife;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NavigationDrawerV2Fragment extends AppBaseFragment {
+public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit {
     private ArrayList<String> mDataset;
     private NavigationAdapter mAdapter;
 
@@ -37,6 +40,8 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment {
     TextView mTxtName;
     @Bind(R.id.lv_navigation)
     RecyclerView mRecyclerView;
+    @Bind(R.id.ly_portrait)
+    LinearLayout mLyPortrait;
 
     public NavigationDrawerV2Fragment() {
     }
@@ -55,15 +60,44 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigation_drawer2, container, false);
         ButterKnife.bind(this, view);
+        initData();
+        initView();
+        return view;
+    }
 
+    @Override
+    public void initData() {
         mDataset = new ArrayList<>();
-        mDataset.add(getString(R.string.label_navi_login));
+        // mDataset.add(getString(R.string.label_navi_login));
+        mDataset.add(getString(R.string.label_navi_upgrade));
         mDataset.add(getString(R.string.label_navi_about));
         mAdapter = new NavigationAdapter(mDataset);
 
-        String uri = "http://www.wzfzl.cn/uploads/allimg/120206/1_120206130502_2.jpg";
-        CommonUtils.loadImage(mIvPortrait, uri);
-        mTxtName.setText("汤加");
+        mAdapter.setItemClickListener(new OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, Object obj) {
+                String item = (String) obj;
+                if (getString(R.string.label_navi_upgrade).equals(item)) {
+                    getAppBaseActivity().showToast(R.string.label_navi_upgrade);
+                } else if (getString(R.string.label_navi_about).equals(item)) {
+                    getAppBaseActivity().showToast(R.string.label_navi_about);
+                }
+            }
+
+            @Override
+            public void onItemLongClick(View view, Object obj) {
+
+            }
+        });
+    }
+
+    @Override
+    public void initView() {
+        // String uri = "http://www.wzfzl.cn/uploads/allimg/120206/1_120206130502_2.jpg";
+        // CommonUtils.loadImage(mIvPortrait, uri);
+        // mTxtName.setText("汤加");
+
+        // mLyPortrait.setBackgroundColor(ThemeHelper.getInstance().getGroupBgColor());
 
         // 设置固定大小
         mRecyclerView.setHasFixedSize(true);
@@ -73,8 +107,8 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment {
                 getActivity(), LinearLayoutManager.HORIZONTAL,
                 getResources().getDimensionPixelOffset(R.dimen.android_divider_height_normal),
                 ContextCompat.getColor(getActivity(), ThemeHelper.getInstance().getGroupBgColor())));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
-        return view;
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.request.ImageRequest;
@@ -50,7 +51,7 @@ public class FrescoManager {
         GenericDraweeHierarchy options = new GenericDraweeHierarchyBuilder(context.getResources())
                 .setPlaceholderImage(ContextCompat.getDrawable(context, R.drawable.ic_portrait))
                 .setFailureImage(ContextCompat.getDrawable(context, R.drawable.ic_portrait))
-                        // .setRoundingParams(RoundingParams.asCircle())
+                .setRoundingParams(RoundingParams.asCircle())
                         // .setProgressBarImage(new ProgressBarDrawable())
                 .build();
         return options;
