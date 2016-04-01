@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.product.colorfulnote.R;
 import com.product.colorfulnote.common.interfaces.OnRecyclerViewItemClickListener;
+import com.product.colorfulnote.ui.activity.AboutActivity;
 import com.product.colorfulnote.ui.adapter.NavigationAdapter;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
 import com.product.colorfulnote.ui.helper.ThemeHelper;
@@ -78,9 +79,10 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit
             public void onItemClick(View view, Object obj) {
                 String item = (String) obj;
                 if (getString(R.string.label_navi_upgrade).equals(item)) {
-                    getAppBaseActivity().showToast(R.string.label_navi_upgrade);
+                    // getAppBaseActivity().showToast(R.string.label_navi_upgrade);
                 } else if (getString(R.string.label_navi_about).equals(item)) {
-                    getAppBaseActivity().showToast(R.string.label_navi_about);
+                    // getAppBaseActivity().showToast(R.string.label_navi_about);
+                    getAppBaseActivity().openActivity(AboutActivity.class);
                 }
             }
 
