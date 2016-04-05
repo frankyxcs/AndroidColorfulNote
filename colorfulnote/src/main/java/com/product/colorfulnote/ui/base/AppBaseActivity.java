@@ -12,6 +12,7 @@ import com.product.common.ui.base.BaseActivity;
  * Created by Administrator on 2016/3/14 0014.
  */
 public abstract class AppBaseActivity extends BaseActivity {
+    private static final String TAG = AppBaseActivity.class.getSimpleName();
     protected Toolbar mToolBar;
     // protected TextView mToolBarTitle;
 
