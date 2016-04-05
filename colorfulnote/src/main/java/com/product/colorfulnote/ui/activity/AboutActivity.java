@@ -5,6 +5,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 
 import com.product.colorfulnote.R;
 import com.product.colorfulnote.ui.base.AppBaseActivity;
+import com.product.colorfulnote.ui.helper.ThemeHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,10 +23,15 @@ public class AboutActivity extends AppBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         ButterKnife.bind(this);
+        initView();
+    }
 
+    private void initView() {
         // 设置还没收缩时状态下字体颜色
-        // mCollapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
+        mCollapsingToolbarLayout.setExpandedTitleColor(ThemeHelper.getInstance().getTitleBgColor());
         // 设置收缩后Toolbar上字体的颜色
-        // mCollapsingToolbarLayout.setCollapsedTitleTextColor(Color.GREEN);
+        mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
+        // 设置收缩后内容上的颜色
+        // mCollapsingToolbarLayout.setContentScrimColor(ThemeHelper.getInstance().getGroupBgColor());
     }
 }

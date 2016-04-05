@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">七彩日记</string>
+    <string name="app_desc">&#160;&#160;&#160;&#160;七彩日记是一个根据星期变化进行颜色不换的日记应用</string>
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
