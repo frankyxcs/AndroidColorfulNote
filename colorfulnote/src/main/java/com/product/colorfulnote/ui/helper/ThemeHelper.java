@@ -3,6 +3,7 @@ package com.product.colorfulnote.ui.helper;
 import com.product.colorfulnote.R;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2016/3/22 0022.
@@ -26,14 +27,20 @@ public class ThemeHelper {
         return Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1;
     }
 
+    private int getCurrentDayOfWeek(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.DAY_OF_WEEK) - 1;
+    }
+
 
     /**
      * 获取星期几
      *
      * @return
      */
-    public String getWeekly() {
-        int dayOfWeek = getCurrentDayOfWeek();
+    public String getWeekly(Date date) {
+        int dayOfWeek = getCurrentDayOfWeek(date);
 
         switch (dayOfWeek) {
             case 0:

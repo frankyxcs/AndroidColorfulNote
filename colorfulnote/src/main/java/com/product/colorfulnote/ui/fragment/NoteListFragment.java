@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,9 +23,11 @@ import com.product.colorfulnote.R;
 import com.product.colorfulnote.common.Constants;
 import com.product.colorfulnote.db.DBNoteHelper;
 import com.product.colorfulnote.db.gen.Note;
+import com.product.colorfulnote.ui.activity.RecordDetailActivity;
 import com.product.colorfulnote.ui.activity.RecordingActivity;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
 import com.product.colorfulnote.ui.helper.ThemeHelper;
+import com.product.colorfulnote.utils.CommonUtils;
 import com.product.common.utils.LogUtils;
 import com.product.common.utils.TimeUtils;
 
@@ -112,6 +115,21 @@ public class NoteListFragment extends AppBaseFragment {
                 pullUp();
             }
         });
+
+        mExpListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int pos = position - 1;
+                if (pos < 0) {
+                    return;
+                }
+                if (!mNoteList.isEmpty() && pos < mNoteList.size()) {
+                    Note entiy = mNoteList.get(pos);
+                    getAppBaseActivity().openActivityForResult(RecordDetailActivity.class,
+                            Constants.COMMON_REQUEST_CODE, CommonUtils.getMaskBundle(entiy));
+                }
+            }
+        });
     }
 
     @Override
@@ -152,7 +170,6 @@ public class NoteListFragment extends AppBaseFragment {
     private void pullDown() {
         mCount = INIT_COUNT;
         LogUtils.i(TAG, "pullDown mCount = " + mCount);
-        // mAdapter.resetData(getGroupNotes(mCount));
         noteGroupBy(mCount);
         mAdapter.notifyDataSetChanged();
         refreshCompleteQuick();
@@ -161,7 +178,6 @@ public class NoteListFragment extends AppBaseFragment {
     private void pullUp() {
         mCount += PAGE_COUNT;
         LogUtils.i(TAG, "pullUp mCount = " + mCount);
-        // mAdapter.resetData(getGroupNotes(mCount));
         noteGroupBy(mCount);
         refreshCompleteQuick();
     }
@@ -172,12 +188,9 @@ public class NoteListFragment extends AppBaseFragment {
         LogUtils.i(TAG, "onActivityResult requestCode = " + requestCode + " ;resultCode = " + resultCode);
         if (Activity.RESULT_OK == resultCode) {
             if (Constants.COMMON_REQUEST_CODE == requestCode) {
-                // ArrayList<Note> noteList = getGroupNotes(mCount);
-                // noteGroupBy(mCount);
                 noteGroupBy(mCount);
                 boolean isEmpty = (mNoteList == null || mNoteList.isEmpty() ? true : false);
                 mTxtEmpty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
-                // mAdapter.resetData(noteList);
                 mAdapter.notifyDataSetChanged();
             }
         }
@@ -230,8 +243,8 @@ public class NoteListFragment extends AppBaseFragment {
 
             holder.lyCard.setBackgroundResource(ThemeHelper.getInstance().getGroupBgColor());
             holder.ivTitle.setBackgroundResource(ThemeHelper.getInstance().getGroupIconBg());
-            holder.txtTitleWeek.setText(ThemeHelper.getInstance().getWeekly());
-            holder.txtTitleDate.setText(TimeUtils.getTime(getItem(position).getDate().getTime(), TimeUtils.DATE_FORMAT_HMS));
+            holder.txtTitleWeek.setText(ThemeHelper.getInstance().getWeekly(getItem(position).getDate()));
+            holder.txtTitleDate.setText(TimeUtils.getTime(getItem(position).getDate().getTime()));
             holder.txtTitleContent.setText(getItem(position).getContent());
             return convertView;
         }
