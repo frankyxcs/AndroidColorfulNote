@@ -12,7 +12,7 @@ import com.product.colorfulnote.R;
 import com.product.colorfulnote.common.Constants;
 import com.product.colorfulnote.ui.base.AppBaseActivity;
 import com.product.colorfulnote.ui.fragment.NavigationDrawerV2Fragment;
-import com.product.colorfulnote.ui.fragment.NoteFragment;
+import com.product.colorfulnote.ui.fragment.NoteListFragment;
 import com.product.common.utils.LogUtils;
 
 import butterknife.Bind;
@@ -38,7 +38,7 @@ public class MainV2Activity extends AppBaseActivity {
         setTitle(R.string.app_name);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, Fragment.instantiate(this, NoteFragment.class.getName(), null))
+                .replace(R.id.container, Fragment.instantiate(this, NoteListFragment.class.getName(), null))
                 .commit();
 
         mNavigationDrawerFragment = (NavigationDrawerV2Fragment)
@@ -71,7 +71,7 @@ public class MainV2Activity extends AppBaseActivity {
             if (Constants.COMMON_REQUEST_CODE == requestCode) {
                 Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
                 if (null != fragment) {
-                    ((NoteFragment) fragment).onActivityResult(requestCode, resultCode, data);
+                    ((NoteListFragment) fragment).onActivityResult(requestCode, resultCode, data);
                 }
             }
         }

@@ -1,6 +1,7 @@
 package com.product.colorfulnote.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,20 +10,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.product.colorfulnote.R;
 import com.product.colorfulnote.common.Constants;
 import com.product.colorfulnote.db.DBNoteHelper;
 import com.product.colorfulnote.db.gen.Note;
-import com.product.colorfulnote.ui.activity.RecordDetailActivity;
 import com.product.colorfulnote.ui.activity.RecordingActivity;
-import com.product.colorfulnote.ui.adapter.TimelineAdapter;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
-import com.product.colorfulnote.utils.CommonUtils;
+import com.product.colorfulnote.ui.helper.ThemeHelper;
 import com.product.common.utils.LogUtils;
 import com.product.common.utils.TimeUtils;
 
@@ -32,39 +34,36 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-//import android.widget.ExpandableListView;
-
-// import android.widget.ExpandableListView;
-
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NoteFragment extends AppBaseFragment implements ExpandableListView.OnChildClickListener,
-        ExpandableListView.OnGroupClickListener {
-    private static final String TAG = NoteFragment.class.getSimpleName();
-    private static final int PAGE = 1;
-    private static final int PAGE_COUNT = 1;
+public class NoteListFragment extends AppBaseFragment {
+    private static final String TAG = NoteListFragment.class.getSimpleName();
+    private static final int INIT_COUNT = 5;
+    private static final int PAGE_COUNT = 5;
     private static final long DELAY = 100;
 
-    private TimelineAdapter mAdapter;
-    private int mPage = PAGE;
+    private NoteAdapter mAdapter;
+    private List<Note> mNoteList;
+    private int mCount = INIT_COUNT;
 
     @Bind(R.id.txt_empty)
     TextView mTxtEmpty;
 
     @Bind(R.id.expandable_listview)
-    PullToRefreshExpandableListView mExpListview;
+    PullToRefreshListView mExpListview;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mNoteList = new ArrayList<>();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_note, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_note, container, false);
         ButterKnife.bind(this, view);
         initView();
         return view;
@@ -83,41 +82,36 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
         ButterKnife.unbind(this);
     }
 
-    public NoteFragment() {
+    public NoteListFragment() {
     }
 
     private void initView() {
-        ArrayList<Note> noteList = getGroupNotes(PAGE);
-        boolean isEmpty = (noteList == null || noteList.isEmpty() ? true : false);
+        // List<Note> noteList = getGroupNotes(INIT_COUNT);
+        noteGroupBy(INIT_COUNT);
+        boolean isEmpty = (mNoteList == null || mNoteList.isEmpty() ? true : false);
         mTxtEmpty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
 
-        mAdapter = new TimelineAdapter(getAppBaseActivity(), noteList);
+        mAdapter = new NoteAdapter(getActivity(), mNoteList);
         mExpListview.getRefreshableView().setDivider(null);
-        mExpListview.getRefreshableView().setGroupIndicator(null);
-        mExpListview.getRefreshableView().setChildIndicator(null);
-        mExpListview.getRefreshableView().setChildDivider(null);
         mExpListview.getRefreshableView().setAdapter(mAdapter);
-        mExpListview.getRefreshableView().setOnGroupClickListener(this);
-        mExpListview.getRefreshableView().setOnChildClickListener(this);
+
 
         mExpListview.setMode(PullToRefreshBase.Mode.BOTH);
-        mExpListview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ExpandableListView>() {
+        mExpListview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 mExpListview.getLoadingLayoutProxy().setLastUpdatedLabel(
                         TimeUtils.getCurrentTimeInString(TimeUtils.DATE_FORMAT_MM));
                 pullDown();
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ExpandableListView> refreshView) {
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 mExpListview.getLoadingLayoutProxy().setLastUpdatedLabel(
                         TimeUtils.getCurrentTimeInString(TimeUtils.DATE_FORMAT_MM));
                 pullUp();
             }
         });
-
-        expandGroup();
     }
 
     @Override
@@ -125,31 +119,15 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
         super.onSaveInstanceState(outState);
     }
 
-    private ArrayList<Note> getGroupNotes(final int groupPage) {
+    private void noteGroupBy(final int count) {
+        mNoteList.clear();
         List<Note> noteList = DBNoteHelper.getInstance().loadAllByDate();
-        return groupBy(noteList, groupPage);
-    }
+        if (noteList.isEmpty())
+            return;
 
-    private ArrayList<Note> groupBy(final List<Note> noteList, final int groupPage) {
-        ArrayList<Note> childData = new ArrayList<>();
-        String preDate = null;
-        int count = 0;
-
-        for (Note entiy : noteList) {
-            String date = TimeUtils.getTime(entiy.getDate().getTime(), TimeUtils.DATE_FORMAT_DAY);
-
-            // 根据日期分组
-            if (null == preDate || !preDate.equals(date)) {
-                count++;
-            }
-            if (count > groupPage) {
-                break;
-            }
-
-            childData.add(entiy);
-            preDate = date;
+        for (int i = 0; i < count && i < noteList.size(); i++) {
+            mNoteList.add(noteList.get(i));
         }
-        return childData;
     }
 
     /**
@@ -172,38 +150,20 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
     }
 
     private void pullDown() {
-        mPage = PAGE;
-        LogUtils.i(TAG, "pullDown mPage = " + mPage);
-        mAdapter.resetData(getGroupNotes(mPage));
-        expandGroup();
+        mCount = INIT_COUNT;
+        LogUtils.i(TAG, "pullDown mCount = " + mCount);
+        // mAdapter.resetData(getGroupNotes(mCount));
+        noteGroupBy(mCount);
+        mAdapter.notifyDataSetChanged();
         refreshCompleteQuick();
     }
 
     private void pullUp() {
-        mPage += PAGE_COUNT;
-        LogUtils.i(TAG, "pullUp mPage = " + mPage);
-        mAdapter.resetData(getGroupNotes(mPage));
-        expandGroup();
+        mCount += PAGE_COUNT;
+        LogUtils.i(TAG, "pullUp mCount = " + mCount);
+        // mAdapter.resetData(getGroupNotes(mCount));
+        noteGroupBy(mCount);
         refreshCompleteQuick();
-    }
-
-    private void expandGroup() {
-        for (int i = 0; i < mAdapter.getGroupCount(); i++) {
-            mExpListview.getRefreshableView().expandGroup(i);
-        }
-    }
-
-    @Override
-    public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-        return true; // 列表都展开显示
-    }
-
-    @Override
-    public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
-        Note entiy = (Note) mAdapter.getChild(groupPosition, childPosition);
-        getAppBaseActivity().openActivityForResult(RecordDetailActivity.class,
-                Constants.COMMON_REQUEST_CODE, CommonUtils.getMaskBundle(entiy));
-        return true;
     }
 
     @Override
@@ -212,11 +172,13 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
         LogUtils.i(TAG, "onActivityResult requestCode = " + requestCode + " ;resultCode = " + resultCode);
         if (Activity.RESULT_OK == resultCode) {
             if (Constants.COMMON_REQUEST_CODE == requestCode) {
-                ArrayList<Note> noteList = getGroupNotes(mPage);
-                boolean isEmpty = (noteList == null || noteList.isEmpty() ? true : false);
+                // ArrayList<Note> noteList = getGroupNotes(mCount);
+                // noteGroupBy(mCount);
+                noteGroupBy(mCount);
+                boolean isEmpty = (mNoteList == null || mNoteList.isEmpty() ? true : false);
                 mTxtEmpty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
-                mAdapter.resetData(noteList);
-                expandGroup();
+                // mAdapter.resetData(noteList);
+                mAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -239,5 +201,56 @@ public class NoteFragment extends AppBaseFragment implements ExpandableListView.
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public class NoteAdapter extends ArrayAdapter<Note> {
+        private int mResourceId;
+        private LayoutInflater mInflater;
+
+        public NoteAdapter(Context context, List<Note> objects) {
+            this(context, R.layout.listitem_note, objects);
+        }
+
+        public NoteAdapter(Context context, int resource, List<Note> objects) {
+            super(context, resource, objects);
+            mResourceId = resource;
+            mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (null == convertView) {
+                convertView = mInflater.inflate(mResourceId, parent, false);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            holder.lyCard.setBackgroundResource(ThemeHelper.getInstance().getGroupBgColor());
+            holder.ivTitle.setBackgroundResource(ThemeHelper.getInstance().getGroupIconBg());
+            holder.txtTitleWeek.setText(ThemeHelper.getInstance().getWeekly());
+            holder.txtTitleDate.setText(TimeUtils.getTime(getItem(position).getDate().getTime(), TimeUtils.DATE_FORMAT_HMS));
+            holder.txtTitleContent.setText(getItem(position).getContent());
+            return convertView;
+        }
+
+        public class ViewHolder {
+            @Bind(R.id.iv_title)
+            ImageView ivTitle;
+            @Bind(R.id.txt_title_week)
+            TextView txtTitleWeek;
+            @Bind(R.id.txt_title_date)
+            TextView txtTitleDate;
+            @Bind(R.id.txt_title_content)
+            TextView txtTitleContent;
+            @Bind(R.id.ly_card)
+            LinearLayout lyCard;
+
+            ViewHolder(View view) {
+                ButterKnife.bind(this, view);
+            }
+        }
     }
 }

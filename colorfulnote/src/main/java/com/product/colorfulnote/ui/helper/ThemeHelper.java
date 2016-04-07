@@ -28,6 +28,35 @@ public class ThemeHelper {
 
 
     /**
+     * 获取星期几
+     *
+     * @return
+     */
+    public String getWeekly() {
+        int dayOfWeek = getCurrentDayOfWeek();
+
+        switch (dayOfWeek) {
+            case 0:
+                return String.format("星期%s", "天");
+            case 1:
+                return String.format("星期%s", "一");
+            case 2:
+                return String.format("星期%s", "二");
+            case 3:
+                return String.format("星期%s", "三");
+            case 4:
+                return String.format("星期%s", "四");
+            case 5:
+                return String.format("星期%s", "五");
+            case 6:
+                return String.format("星期%s", "六");
+            default:
+                break;
+        }
+        return String.format("星期%s", "天");
+    }
+
+    /**
      * 根据星期返回颜色
      *
      * @return

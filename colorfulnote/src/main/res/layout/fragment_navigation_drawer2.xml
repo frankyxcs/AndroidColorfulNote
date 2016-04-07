@@ -33,9 +33,19 @@
             android:visibility="gone" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/txt_desc"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/android_margin_middle"
+        android:text="@string/app_desc" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lv_navigation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/android_margin_middle" />
+        android:layout_marginTop="@dimen/android_margin_middle"
+        android:visibility="gone" />
 </LinearLayout>

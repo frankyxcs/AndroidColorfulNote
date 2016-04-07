@@ -2,8 +2,6 @@ package com.product.colorfulnote.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +16,6 @@ import com.product.colorfulnote.ui.activity.AboutActivity;
 import com.product.colorfulnote.ui.adapter.NavigationAdapter;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
 import com.product.colorfulnote.ui.helper.ThemeHelper;
-import com.product.colorfulnote.ui.view.RecycleViewDivider;
 import com.product.common.interfaces.IInit;
 
 import java.util.ArrayList;
@@ -43,6 +40,8 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit
     RecyclerView mRecyclerView;
     @Bind(R.id.ly_portrait)
     LinearLayout mLyPortrait;
+    @Bind(R.id.txt_desc)
+    TextView mTxtDesc;
 
     public NavigationDrawerV2Fragment() {
     }
@@ -61,7 +60,7 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigation_drawer2, container, false);
         ButterKnife.bind(this, view);
-        initData();
+        // initData();
         initView();
         return view;
     }
@@ -95,6 +94,8 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit
 
     @Override
     public void initView() {
+        mTxtDesc.setTextColor(ContextCompat.getColor(getActivity(), ThemeHelper.getInstance().getTitleBgColor()));
+
         // String uri = "http://www.wzfzl.cn/uploads/allimg/120206/1_120206130502_2.jpg";
         // CommonUtils.loadImage(mIvPortrait, uri);
         // mTxtName.setText("汤加");
@@ -102,15 +103,15 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit
         // mLyPortrait.setBackgroundColor(ThemeHelper.getInstance().getGroupBgColor());
 
         // 设置固定大小
-        mRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.addItemDecoration(new RecycleViewDivider(
-                getActivity(), LinearLayoutManager.HORIZONTAL,
-                getResources().getDimensionPixelOffset(R.dimen.android_divider_height_normal),
-                ContextCompat.getColor(getActivity(), ThemeHelper.getInstance().getGroupBgColor())));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(mAdapter);
+//        mRecyclerView.setHasFixedSize(true);
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+//        mRecyclerView.setLayoutManager(layoutManager);
+//        mRecyclerView.addItemDecoration(new RecycleViewDivider(
+//                getActivity(), LinearLayoutManager.HORIZONTAL,
+//                getResources().getDimensionPixelOffset(R.dimen.android_divider_height_normal),
+//                ContextCompat.getColor(getActivity(), ThemeHelper.getInstance().getGroupBgColor())));
+//        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
