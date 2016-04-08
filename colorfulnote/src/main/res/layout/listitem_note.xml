@@ -37,7 +37,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/android_margin_normal"
-                android:layout_toRightOf="@+id/iv_title" />
+                android:layout_toRightOf="@+id/iv_title"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/txt_title_date"
@@ -45,7 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:textColor="@color/black" />
         </RelativeLayout>
 
         <TextView
@@ -55,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/android_margin_normal"
             android:maxLines="2"
-            android:minLines="2" />
+            android:minLines="2"
+            android:textColor="@color/black" />
     </LinearLayout>
 </LinearLayout>
