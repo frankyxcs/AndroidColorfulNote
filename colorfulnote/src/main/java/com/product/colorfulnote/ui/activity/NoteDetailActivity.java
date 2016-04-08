@@ -3,8 +3,10 @@ package com.product.colorfulnote.ui.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -21,6 +23,7 @@ import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by Administrator on 2016/3/18 0018.
@@ -31,6 +34,7 @@ public class NoteDetailActivity extends AppBaseActivity implements IValid {
     private Note mNote;
     private String mTitle = "标题";
     private String mContent;
+    private MaterialDialog mMaterialDialog;
 
     @Bind(R.id.et_content)
     EditText mEtContent;
@@ -63,9 +67,7 @@ public class NoteDetailActivity extends AppBaseActivity implements IValid {
 
     private void complete() {
         if (isValid()) {
-            saveLocal();
-            setResult(Activity.RESULT_OK, null);
-            finish();
+            showMaterialDialog();
         }
     }
 
@@ -95,11 +97,7 @@ public class NoteDetailActivity extends AppBaseActivity implements IValid {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        if (isHasDetail()) {
-            getMenuInflater().inflate(R.menu.menu_modify, menu);
-        } else {
-            getMenuInflater().inflate(R.menu.menu_complete, menu);
-        }
+        getMenuInflater().inflate(R.menu.menu_complete, menu);
         return true;
     }
 
@@ -110,10 +108,48 @@ public class NoteDetailActivity extends AppBaseActivity implements IValid {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_modify || id == R.id.action_complete) {
+        if (id == R.id.action_complete) {
             complete();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (!StringUtils.isEmpty(mEtContent.getText().toString().trim())) {
+                if (null != mNote && mNote.getContent().equals(mEtContent.getText().toString().trim())) {
+                    finish();
+                } else {
+                    complete();
+                }
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void showMaterialDialog() {
+        mMaterialDialog = new MaterialDialog(this)
+                //.setTitle("MaterialDialog")
+                .setMessage(R.string.dlg_note_detail_content)
+                .setPositiveButton(R.string.common_yes, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mMaterialDialog.dismiss();
+
+                        saveLocal();
+                        setResult(Activity.RESULT_OK, null);
+                        finish();
+                    }
+                })
+                .setNegativeButton(R.string.common_no, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mMaterialDialog.dismiss();
+                    }
+                });
+        mMaterialDialog.show();
     }
 }

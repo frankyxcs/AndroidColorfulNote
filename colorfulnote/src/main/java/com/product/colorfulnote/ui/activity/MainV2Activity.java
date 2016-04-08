@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.KeyEvent;
 import android.view.View;
 
+import com.product.colorfulnote.BaseApplication;
 import com.product.colorfulnote.R;
 import com.product.colorfulnote.common.Constants;
 import com.product.colorfulnote.ui.base.AppBaseActivity;
@@ -75,5 +77,23 @@ public class MainV2Activity extends AppBaseActivity {
                 }
             }
         }
+    }
+
+    private static final long EXIT_INTERVAL = 2000L;
+    private long mExitTime = 0;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - mExitTime) > EXIT_INTERVAL) {
+                showToast(R.string.common_exit_app);
+                mExitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                ((BaseApplication) getApplicationContext()).exitApp(true);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

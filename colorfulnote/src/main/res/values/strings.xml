@@ -48,4 +48,7 @@
     <string name="label_navi_upgrade">自升级</string>
     <string name="label_navi_about">关于</string>
 
+    <!--    <string name="dlg_note_detail_title">是否保存？</string>-->
+    <string name="dlg_note_detail_content">是否保存日记？</string>
+
 </resources>
