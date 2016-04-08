@@ -23,8 +23,7 @@ import com.product.colorfulnote.R;
 import com.product.colorfulnote.common.Constants;
 import com.product.colorfulnote.db.DBNoteHelper;
 import com.product.colorfulnote.db.gen.Note;
-import com.product.colorfulnote.ui.activity.RecordDetailActivity;
-import com.product.colorfulnote.ui.activity.RecordingActivity;
+import com.product.colorfulnote.ui.activity.NoteDetailActivity;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
 import com.product.colorfulnote.ui.helper.ThemeHelper;
 import com.product.colorfulnote.utils.CommonUtils;
@@ -125,7 +124,7 @@ public class NoteListFragment extends AppBaseFragment {
                 }
                 if (!mNoteList.isEmpty() && pos < mNoteList.size()) {
                     Note entiy = mNoteList.get(pos);
-                    getAppBaseActivity().openActivityForResult(RecordDetailActivity.class,
+                    getAppBaseActivity().openActivityForResult(NoteDetailActivity.class,
                             Constants.COMMON_REQUEST_CODE, CommonUtils.getMaskBundle(entiy));
                 }
             }
@@ -209,7 +208,7 @@ public class NoteListFragment extends AppBaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_add) {
             getAppBaseActivity().openActivityForResult(
-                    RecordingActivity.class, Constants.COMMON_REQUEST_CODE, null);
+                    NoteDetailActivity.class, Constants.COMMON_REQUEST_CODE, null);
             return true;
         }
 

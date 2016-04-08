@@ -21,7 +21,7 @@
             android:layout_marginTop="@dimen/android_margin_huge"
             android:orientation="vertical">
 
-            <EditText
+<!--            <EditText
                 android:id="@+id/et_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
 
             <View
                 style="@style/DividerStyle.Horizontal"
-                android:layout_marginTop="@dimen/android_margin_middle" />
+                android:layout_marginTop="@dimen/android_margin_middle" />-->
 
             <EditText
                 android:id="@+id/et_content"
@@ -44,11 +44,11 @@
                 android:gravity="left|top"
                 android:hint="@string/prompt_record_note"
                 android:inputType="textMultiLine"
-                android:maxLines="20"
-                android:minLines="10"
+                android:maxLines="12"
+                android:minLines="12"
                 android:singleLine="false" />
 
-            <com.product.colorfulnote.ui.view.ShakeButton
+<!--            <com.product.colorfulnote.ui.view.ShakeButton
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/android_btn_height"
@@ -56,7 +56,7 @@
                 android:background="@drawable/selector_btn_blue"
                 android:text="@string/action_submit"
                 android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:textStyle="bold" />-->
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

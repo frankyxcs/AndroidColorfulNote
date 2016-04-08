@@ -15,6 +15,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_modify">修改</string>
     <string name="action_add">增加</string>
+    <string name="action_complete">完成</string>
 
     <string name="label_share">分享</string>
 
@@ -31,7 +32,7 @@
     <!-- RecordingActivity start -->
     <string name="title_activity_recording">记录</string>
     <string name="prompt_record_title">取个名字吧</string>
-    <string name="prompt_record_note">记录心情日记吧</string>
+    <string name="prompt_record_note">赶快记录你的心情吧</string>
     <string name="action_submit">提交</string>
     <string name="label_group_num">共%s日记</string>
 

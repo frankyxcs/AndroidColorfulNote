@@ -41,6 +41,7 @@ import butterknife.ButterKnife;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
+@Deprecated
 public class NoteFragment extends AppBaseFragment implements ExpandableListView.OnChildClickListener,
         ExpandableListView.OnGroupClickListener {
     private static final String TAG = NoteFragment.class.getSimpleName();

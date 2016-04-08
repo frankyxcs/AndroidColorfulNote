@@ -9,7 +9,8 @@
         android:layout_height="match_parent"
         android:layout_margin="@dimen/android_margin_middle"
         android:divider="@color/transparent"
-        android:dividerHeight="0dp" />
+        android:dividerHeight="0dp"
+        android:scrollbars="none" />
 
     <include layout="@layout/layout_empty_text" />
 </FrameLayout>

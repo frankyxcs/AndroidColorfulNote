@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/3/18 0018.
  */
+@Deprecated
 public class RecordDetailActivity extends AppBaseActivity {
     private static final String TAG = RecordDetailActivity.class.getSimpleName();
     private Note mNote;
@@ -83,7 +84,6 @@ public class RecordDetailActivity extends AppBaseActivity {
             }
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
