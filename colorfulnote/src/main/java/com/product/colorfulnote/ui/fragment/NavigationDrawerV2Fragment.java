@@ -17,6 +17,7 @@ import com.product.colorfulnote.ui.adapter.NavigationAdapter;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
 import com.product.colorfulnote.ui.helper.ThemeHelper;
 import com.product.common.interfaces.IInit;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ import butterknife.ButterKnife;
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
 public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit {
+    private static final String TAG = NavigationDrawerV2Fragment.class.getSimpleName();
     private ArrayList<String> mDataset;
     private NavigationAdapter mAdapter;
 
@@ -43,17 +45,9 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit
     @Bind(R.id.txt_desc)
     TextView mTxtDesc;
 
-    public NavigationDrawerV2Fragment() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -63,6 +57,34 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit
         // initData();
         initView();
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        MobclickAgent.onPageStart(TAG);
+    }
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        MobclickAgent.onPageEnd(TAG);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    public NavigationDrawerV2Fragment() {
     }
 
     @Override
@@ -119,13 +141,7 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-//    public void setUp(DrawerLayout drawerLayout, Toolbar toolbar) {
+    //    public void setUp(DrawerLayout drawerLayout, Toolbar toolbar) {
 //        //创建返回键，并实现打开关/闭监听
 //        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
 //                getActivity(), drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {

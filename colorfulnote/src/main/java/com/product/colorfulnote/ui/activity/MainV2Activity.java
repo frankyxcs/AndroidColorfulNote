@@ -16,6 +16,7 @@ import com.product.colorfulnote.ui.base.AppBaseActivity;
 import com.product.colorfulnote.ui.fragment.NavigationDrawerV2Fragment;
 import com.product.colorfulnote.ui.fragment.NoteListFragment;
 import com.product.common.utils.LogUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,6 +35,18 @@ public class MainV2Activity extends AppBaseActivity {
         setContentView(R.layout.activity_main2);
         ButterKnife.bind(this);
         initViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     private void initViews() {

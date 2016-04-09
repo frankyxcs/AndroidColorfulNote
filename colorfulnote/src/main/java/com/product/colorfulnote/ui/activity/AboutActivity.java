@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.product.colorfulnote.R;
 import com.product.colorfulnote.ui.base.AppBaseActivity;
 import com.product.colorfulnote.ui.helper.ThemeHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/4/1 0001.
  */
 public class AboutActivity extends AppBaseActivity {
+    private static final String TAG = AboutActivity.class.getSimpleName();
 
     @Bind(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
@@ -30,6 +32,24 @@ public class AboutActivity extends AppBaseActivity {
         setContentView(R.layout.activity_about);
         ButterKnife.bind(this);
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(TAG);
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(TAG);
+        MobclickAgent.onPause(this);
     }
 
     private void initView() {

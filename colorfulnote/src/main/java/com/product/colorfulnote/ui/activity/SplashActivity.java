@@ -33,6 +33,33 @@ public class SplashActivity extends AppBaseActivity {
         switchView(getGuideSwitch());
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(TAG);
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(TAG);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // ShareSDK.stopSDK(this);
+
+        if (null != mSplashLayer) {
+            mSplashLayer.destroy();
+        }
+        if (null != mGuideLayer) {
+            mGuideLayer.destroy();
+        }
+    }
+
     /**
      * @return true 显示闪屏界面
      */
@@ -62,30 +89,4 @@ public class SplashActivity extends AppBaseActivity {
         super.onBackPressed();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(TAG);
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(TAG);
-        MobclickAgent.onPause(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // ShareSDK.stopSDK(this);
-
-        if (null != mSplashLayer) {
-            mSplashLayer.destroy();
-        }
-        if (null != mGuideLayer) {
-            mGuideLayer.destroy();
-        }
-    }
 }

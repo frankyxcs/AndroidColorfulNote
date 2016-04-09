@@ -18,6 +18,7 @@ import com.product.colorfulnote.ui.helper.ThemeHelper;
 import com.product.colorfulnote.utils.CommonUtils;
 import com.product.common.interfaces.IValid;
 import com.product.common.utils.StringUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.Date;
 
@@ -49,6 +50,24 @@ public class NoteDetailActivity extends AppBaseActivity implements IValid {
 
         initData();
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(TAG);
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(TAG);
+        MobclickAgent.onPause(this);
     }
 
     private void initData() {

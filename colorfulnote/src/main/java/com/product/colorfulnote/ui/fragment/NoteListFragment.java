@@ -29,6 +29,7 @@ import com.product.colorfulnote.ui.helper.ThemeHelper;
 import com.product.colorfulnote.utils.CommonUtils;
 import com.product.common.utils.LogUtils;
 import com.product.common.utils.TimeUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +77,20 @@ public class NoteListFragment extends AppBaseFragment {
         super.onActivityCreated(savedInstanceState);
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        MobclickAgent.onPageStart(TAG);
+    }
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        MobclickAgent.onPageEnd(TAG);
     }
 
     @Override
