@@ -32,11 +32,9 @@ public class BaseApplication extends Application {
     private void init() {
         LogUtils.init(BuildConfig.LOG_DEBUG, BuildConfig.APPLICATION_ID);
         // CrashException.getInstance().init(this);
-
         DBManager.getInstance().init(this);
         FrescoManager.getInstance().init(this);
-//        Notify.getInstance().init(this);
-
+        // Notify.getInstance().init(this);
         StatisticsProxy.getInstance().init(this);
         UpdateProxy.getInstance().init(this);
     }
