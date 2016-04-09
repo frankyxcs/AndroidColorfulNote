@@ -28,7 +28,8 @@ public class GuideLayer extends RelativeLayout implements ICycle {
     private ScrollViewPager mViewPager;
     private List<View> mBannerViewList;
 
-    private int mGuidePageResId[] = {R.drawable.guide_page_1, R.drawable.guide_page_2, R.drawable.guide_page_3};
+    // private int mGuidePageResId[] = {R.drawable.guide_page_1, R.drawable.guide_page_2, R.drawable.guide_page_3};
+    private int mGuidePageResId[] = {0, 1, 2};
 
     public GuideLayer(Context context) {
         super(context);

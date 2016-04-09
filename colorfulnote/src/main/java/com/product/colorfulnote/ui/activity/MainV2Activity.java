@@ -13,7 +13,6 @@ import com.product.colorfulnote.BaseApplication;
 import com.product.colorfulnote.R;
 import com.product.colorfulnote.common.Constants;
 import com.product.colorfulnote.thridpart.push.PushProxy;
-import com.product.colorfulnote.thridpart.update.UpdateProxy;
 import com.product.colorfulnote.ui.base.AppBaseActivity;
 import com.product.colorfulnote.ui.fragment.NavigationDrawerV2Fragment;
 import com.product.colorfulnote.ui.fragment.NoteListFragment;
@@ -41,7 +40,7 @@ public class MainV2Activity extends AppBaseActivity {
         /** 初始化文件夹等环境 */
         CommonUtils.initAppEnvironment();
         /** 应用升级 */
-        UpdateProxy.getInstance().update(this);
+        // UpdateProxy.getInstance().update(this);
         /** 百度push */
         PushProxy.getInstance().startWork(this);
 
