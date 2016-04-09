@@ -38,6 +38,12 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/jniLibs']
+        }
+    }
+
     // Rename APP
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
