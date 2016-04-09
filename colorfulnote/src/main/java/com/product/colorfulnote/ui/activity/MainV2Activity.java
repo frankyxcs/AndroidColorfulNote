@@ -12,9 +12,12 @@ import android.view.View;
 import com.product.colorfulnote.BaseApplication;
 import com.product.colorfulnote.R;
 import com.product.colorfulnote.common.Constants;
+import com.product.colorfulnote.thridpart.push.PushProxy;
+import com.product.colorfulnote.thridpart.update.UpdateProxy;
 import com.product.colorfulnote.ui.base.AppBaseActivity;
 import com.product.colorfulnote.ui.fragment.NavigationDrawerV2Fragment;
 import com.product.colorfulnote.ui.fragment.NoteListFragment;
+import com.product.colorfulnote.utils.CommonUtils;
 import com.product.common.utils.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -34,6 +37,14 @@ public class MainV2Activity extends AppBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         ButterKnife.bind(this);
+
+        /** 初始化文件夹等环境 */
+        CommonUtils.initAppEnvironment();
+        /** 应用升级 */
+        UpdateProxy.getInstance().update(this);
+        /** 百度push */
+        PushProxy.getInstance().startWork(this);
+
         initViews();
     }
 
@@ -66,6 +77,8 @@ public class MainV2Activity extends AppBaseActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                MobclickAgent.onEvent(MainV2Activity.this, "click");
+                MobclickAgent.onEvent(MainV2Activity.this, "click", "ActionDrawerOpened");
             }
 
             @Override

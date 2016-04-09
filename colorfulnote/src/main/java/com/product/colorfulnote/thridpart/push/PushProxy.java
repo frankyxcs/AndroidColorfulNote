@@ -43,7 +43,7 @@ public class PushProxy {
                 AppUtils.getMetaValue(context, Constants.PUSH_KEY));
 
         // Push: 如果想基于地理位置推送，可以打开支持地理位置的推送的开关
-        // PushManager.enableLbs(getApplicationContext());
+        PushManager.enableLbs(context.getApplicationContext());
 
         // Push: 设置自定义的通知样式，具体API介绍见用户手册，如果想使用系统默认的可以不加这段代码
         // 请在通知推送界面中，高级设置->通知栏样式->自定义样式，选中并且填写值：1，

@@ -128,6 +128,8 @@ public class NoteDetailActivity extends AppBaseActivity implements IValid {
         int id = item.getItemId();
 
         if (id == R.id.action_complete) {
+            MobclickAgent.onEvent(this, "click");
+            MobclickAgent.onEvent(this, "click", "ActionComplete");
             complete();
             return true;
         }
@@ -138,6 +140,8 @@ public class NoteDetailActivity extends AppBaseActivity implements IValid {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if (!StringUtils.isEmpty(mEtContent.getText().toString().trim())) {
+                MobclickAgent.onEvent(this, "keyboard");
+                MobclickAgent.onEvent(this, "keyboard", "back");
                 if (null != mNote && mNote.getContent().equals(mEtContent.getText().toString().trim())) {
                     finish();
                 } else {
@@ -156,6 +160,9 @@ public class NoteDetailActivity extends AppBaseActivity implements IValid {
                 .setPositiveButton(R.string.common_yes, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        MobclickAgent.onEvent(NoteDetailActivity.this, "click");
+                        MobclickAgent.onEvent(NoteDetailActivity.this, "click", "MaterialDialog->Yes");
+
                         mMaterialDialog.dismiss();
 
                         saveLocal();
@@ -166,6 +173,9 @@ public class NoteDetailActivity extends AppBaseActivity implements IValid {
                 .setNegativeButton(R.string.common_no, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        MobclickAgent.onEvent(NoteDetailActivity.this, "click");
+                        MobclickAgent.onEvent(NoteDetailActivity.this, "click", "MaterialDialog->No");
+
                         mMaterialDialog.dismiss();
                     }
                 });

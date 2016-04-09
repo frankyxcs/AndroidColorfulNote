@@ -222,6 +222,8 @@ public class NoteListFragment extends AppBaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_add) {
+            MobclickAgent.onEvent(getActivity(), "click");
+            MobclickAgent.onEvent(getActivity(), "click", "ActionAdd");
             getAppBaseActivity().openActivityForResult(
                     NoteDetailActivity.class, Constants.COMMON_REQUEST_CODE, null);
             return true;
