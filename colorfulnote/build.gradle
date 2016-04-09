@@ -18,7 +18,9 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        manifestPlaceholders = [CHANNEL_VALUE: "default"]
+        manifestPlaceholders = [CHANNEL_VALUE     : "default",
+                                UMENG_APPKEY_VALUE: "57086074e0f55af474001af0",
+                                PUSH_KEY_VALUE    : "fGdUZDzD4VKNDlrDM3ODBb9i"]
     }
 
     productFlavors {

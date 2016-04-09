@@ -76,24 +76,24 @@
         <!-- Umeng start -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="57086074e0f55af474001af0" />
+            android:value="${UMENG_APPKEY_VALUE}" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${CHANNEL_VALUE}" />
 
-<!--        <service
-            android:name="com.umeng.update.net.DownloadingService"
-            android:process=":DownloadingService"></service>
-        <activity
-            android:name="com.umeng.update.UpdateDialogActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>-->
+        <!--        <service
+                    android:name="com.umeng.update.net.DownloadingService"
+                    android:process=":DownloadingService"></service>
+                <activity
+                    android:name="com.umeng.update.UpdateDialogActivity"
+                    android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>-->
         <!-- Umeng end -->
 
         <!-- Baidu Push start -->
         <!-- 在百度开发者中心查询应用的API Key -->
         <meta-data
             android:name="PUSH_KEY"
-            android:value="fGdUZDzD4VKNDlrDM3ODBb9i" />
+            android:value="${PUSH_KEY_VALUE}" />
         <!-- 4.6版本新增的Activity声明，提升Push后台存活率 -->
         <activity
             android:name="com.baidu.android.pushservice.PushKeepAlive"
