@@ -26,19 +26,21 @@ android {
     productFlavors {
         "default" {}
         baidu {}
-        qh360 {}
+        "360" {}
+        "91" {}
+        googleplay {}
     }
 
     productFlavors.all { flavor ->
         flavor.manifestPlaceholders = [CHANNEL_VALUE: name]
     }
 
-    android.variantFilter { variant ->
-        //减少build时间
-        if (!variant.getFlavors().get(0).name.equals('qh360')) {
-            variant.setIgnore(true);
-        }
-    }
+//    android.variantFilter { variant ->
+//        //减少build时间
+//        if (!variant.getFlavors().get(0).name.equals('default')) {
+//            variant.setIgnore(true);
+//        }
+//    }
 
     sourceSets {
         main {
