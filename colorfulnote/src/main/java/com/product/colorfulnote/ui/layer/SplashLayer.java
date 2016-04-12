@@ -7,11 +7,10 @@ import android.view.animation.Animation;
 import android.widget.RelativeLayout;
 
 import com.product.colorfulnote.common.interfaces.ICycle;
-import com.product.colorfulnote.ui.activity.MainActivity;
+import com.product.colorfulnote.ui.activity.NavigationActivity;
 import com.product.colorfulnote.ui.activity.SplashActivity;
 import com.product.common.ui.base.BaseActivity;
 import com.product.common.utils.LogUtils;
-
 
 
 public class SplashLayer extends RelativeLayout implements ICycle {
@@ -80,7 +79,7 @@ public class SplashLayer extends RelativeLayout implements ICycle {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ((BaseActivity) getContext()).openActivity(MainActivity.class);
+                ((BaseActivity) getContext()).openActivity(NavigationActivity.class);
                 ((SplashActivity) getContext()).finish();
             }
         }, duration);

@@ -21,13 +21,13 @@
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
 
     <application
-        android:name="com.product.colorfulnote.BaseApplication"
+        android:name=".BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.product.colorfulnote.ui.activity.SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.FullscreenTheme">
             <intent-filter>
@@ -43,13 +43,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="com.product.colorfulnote.ui.activity.AboutActivity"
+            android:name=".ui.activity.AboutActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="com.product.colorfulnote.ui.activity.NoteDetailActivity"
+            android:name=".ui.activity.NoteDetailActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -63,13 +63,16 @@
             android:name="UMENG_CHANNEL"
             android:value="${CHANNEL_VALUE}" />
 
-        <!--        <service
+        <!--
+                    <service
                     android:name="com.umeng.update.net.DownloadingService"
                     android:process=":DownloadingService"></service>
                 <activity
                     android:name="com.umeng.update.UpdateDialogActivity"
-                    android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>-->
+                    android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+        -->
         <!-- Umeng end -->
+
 
         <!-- Baidu Push start -->
         <!-- 在百度开发者中心查询应用的API Key -->
@@ -97,7 +100,7 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
-        <!-- Push服务接收客户端发送的各种请求-->
+        <!-- Push服务接收客户端发送的各种请求 -->
         <receiver
             android:name="com.baidu.android.pushservice.RegistrationReceiver"
             android:process=":bdservice_v1">
@@ -107,9 +110,11 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
+
         <service
             android:name="com.baidu.android.pushservice.PushService"
             android:exported="true"
@@ -124,11 +129,12 @@
             android:exported="true" />
 
         <!-- Push的处理类 -->
-        <receiver android:name="com.product.colorfulnote.ui.receiver.BaiduPushMessageReceiver">
+        <receiver android:name=".ui.receiver.BaiduPushMessageReceiver">
             <intent-filter>
+
                 <!-- 接收push消息 -->
                 <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
-                <!-- 接收bind、setTags等method的返回结果-->
+                <!-- 接收bind、setTags等method的返回结果 -->
                 <action android:name="com.baidu.android.pushservice.action.RECEIVE" />
                 <!-- 接收通知点击事件，和通知自定义内容 -->
                 <action android:name="com.baidu.android.pushservice.action.notification.CLICK" />
@@ -136,6 +142,10 @@
         </receiver>
         <!-- Baidu Push end -->
 
+        <activity
+            android:name=".ui.activity.NavigationActivity"
+            android:label="@string/title_activity_navigation"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

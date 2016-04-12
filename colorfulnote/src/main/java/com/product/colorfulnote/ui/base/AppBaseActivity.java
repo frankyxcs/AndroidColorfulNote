@@ -14,7 +14,6 @@ import com.product.common.ui.base.BaseActivity;
 public abstract class AppBaseActivity extends BaseActivity {
     private static final String TAG = AppBaseActivity.class.getSimpleName();
     protected Toolbar mToolBar;
-    // protected TextView mToolBarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +39,6 @@ public abstract class AppBaseActivity extends BaseActivity {
                     onBackPressed();
                 }
             });
-//            mToolBarTitle = (TextView) findViewById(R.id.toolbar_title);
-//            if (mToolBarTitle != null) {
-//                getSupportActionBar().setDisplayShowTitleEnabled(false);
-//            }
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(false);
         }
