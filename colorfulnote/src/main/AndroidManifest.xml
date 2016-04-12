@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.product.colorfulnote.ui.activity.MainV2Activity"
+            android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

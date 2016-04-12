@@ -52,7 +52,7 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_navigation_drawer2, container, false);
+        View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         ButterKnife.bind(this, view);
         // initData();
         initView();

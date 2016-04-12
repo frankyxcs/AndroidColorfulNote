@@ -23,8 +23,8 @@ import com.umeng.analytics.MobclickAgent;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainV2Activity extends AppBaseActivity {
-    private static final String TAG = MainV2Activity.class.getSimpleName();
+public class MainActivity extends AppBaseActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private NavigationDrawerV2Fragment mNavigationDrawerFragment;
 
@@ -34,7 +34,7 @@ public class MainV2Activity extends AppBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
         /** 初始化文件夹等环境 */
@@ -76,8 +76,8 @@ public class MainV2Activity extends AppBaseActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                MobclickAgent.onEvent(MainV2Activity.this, "click");
-                MobclickAgent.onEvent(MainV2Activity.this, "click", "ActionDrawerOpened");
+                MobclickAgent.onEvent(MainActivity.this, "click");
+                MobclickAgent.onEvent(MainActivity.this, "click", "ActionDrawerOpened");
             }
 
             @Override
