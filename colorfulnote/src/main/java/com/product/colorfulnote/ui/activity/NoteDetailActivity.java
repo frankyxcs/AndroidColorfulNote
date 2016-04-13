@@ -29,6 +29,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 /**
  * Created by Administrator on 2016/3/18 0018.
  */
+@Deprecated
 public class NoteDetailActivity extends AppBaseActivity implements IValid {
     private static final String TAG = NoteDetailActivity.class.getSimpleName();
 

@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
+@Deprecated
 public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit {
     private static final String TAG = NavigationDrawerV2Fragment.class.getSimpleName();
     private ArrayList<String> mDataset;
