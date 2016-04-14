@@ -55,7 +55,7 @@ public class NavigationActivity extends AppBaseActivity
 
         mNavigationView.getHeaderView(0).findViewById(R.id.ly_portrait)
                 .setBackgroundColor(getResources().getColor(ThemeHelper.getInstance().getItemBgColor()));
-        mNavigationView.setNavigationItemSelectedListener(this);
+        // mNavigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -105,10 +105,6 @@ public class NavigationActivity extends AppBaseActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_about) {
-            openActivity(AboutActivity.class);
-        }
 
         // mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;

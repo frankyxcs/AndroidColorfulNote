@@ -1,10 +1,7 @@
 package com.product.colorfulnote.ui.activity;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.graphics.Palette;
 import android.widget.TextView;
 
 import com.product.colorfulnote.R;
@@ -21,7 +18,7 @@ import butterknife.ButterKnife;
 public class AboutActivity extends AppBaseActivity {
     private static final String TAG = AboutActivity.class.getSimpleName();
 
-    @Bind(R.id.collapsing_toolbar_layout)
+    @Bind(R.id.toolbar_layout)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @Bind(R.id.txt_about)
     TextView mTxtAbout;
@@ -53,28 +50,28 @@ public class AboutActivity extends AppBaseActivity {
     }
 
     private void initView() {
-        mTxtAbout.setTextColor(ThemeHelper.getInstance().getItemBgColor());
+        // mTxtAbout.setTextColor(ThemeHelper.getInstance().getItemBgColor());
 
-        // 设置还没收缩时状态下字体颜色
-        mCollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.black));
-        // 设置收缩后Toolbar上字体的颜色
-        mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
+//        // 设置还没收缩时状态下字体颜色
+//        mCollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.black));
+//        // 设置收缩后Toolbar上字体的颜色
+//        mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
         // 设置收缩后内容上的颜色
-        // mCollapsingToolbarLayout.setContentScrimColor(ThemeHelper.getInstance().getItemBgColor());
+        mCollapsingToolbarLayout.setContentScrimColor(
+                getResources().getColor(ThemeHelper.getInstance().getTitleBgColor()));
 
-
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_header);
-        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(final Palette palette) {
-                int defaultColor = ThemeHelper.getInstance().getTitleBgColor();
-                int defaultTitleColor = getResources().getColor(R.color.white);
-                int bgColor = palette.getDarkVibrantColor(defaultColor);
-                int titleColor = palette.getLightVibrantColor(defaultTitleColor);
-                mCollapsingToolbarLayout.setContentScrimColor(bgColor);
-                // mCollapsingToolbarLayout.setCollapsedTitleTextColor(titleColor);
-                // mCollapsingToolbarLayout.setExpandedTitleColor(titleColor);
-            }
-        });
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_header);
+//        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+//            @Override
+//            public void onGenerated(final Palette palette) {
+//                int defaultColor = ThemeHelper.getInstance().getTitleBgColor();
+//                int defaultTitleColor = getResources().getColor(R.color.white);
+//                int bgColor = palette.getDarkVibrantColor(defaultColor);
+//                int titleColor = palette.getLightVibrantColor(defaultTitleColor);
+//                mCollapsingToolbarLayout.setContentScrimColor(bgColor);
+//                // mCollapsingToolbarLayout.setCollapsedTitleTextColor(titleColor);
+//                // mCollapsingToolbarLayout.setExpandedTitleColor(titleColor);
+//            }
+//        });
     }
 }
