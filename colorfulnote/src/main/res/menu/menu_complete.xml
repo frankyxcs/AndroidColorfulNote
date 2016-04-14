@@ -4,7 +4,7 @@
     tools:context=".MainActivity">
     <item
         android:id="@+id/action_complete"
-        android:icon="@android:drawable/ic_menu_save"
+        android:icon="@drawable/ic_action_navigation_check"
         android:orderInCategory="100"
         android:title="@string/action_complete"
         app:showAsAction="always" />
