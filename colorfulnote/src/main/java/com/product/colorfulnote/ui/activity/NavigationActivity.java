@@ -1,10 +1,12 @@
 package com.product.colorfulnote.ui.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.MenuItem;
 
 import com.product.colorfulnote.BaseApplication;
 import com.product.colorfulnote.R;
@@ -13,16 +15,27 @@ import com.product.colorfulnote.thridpart.push.PushProxy;
 import com.product.colorfulnote.ui.base.AppBaseActivity;
 import com.product.colorfulnote.ui.fragment.NoteDetailFragment;
 import com.product.colorfulnote.ui.fragment.NoteListV2Fragment;
+import com.product.colorfulnote.ui.helper.ThemeHelper;
 import com.product.colorfulnote.utils.CommonUtils;
 
-public class NavigationActivity extends AppBaseActivity {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class NavigationActivity extends AppBaseActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
     public static final String LIST_FRAGMENT = "ListFragment";
     public static final String DETAIL_FRAGMENT = "DetailFragment";
+
+    @Bind(R.id.nav_view)
+    NavigationView mNavigationView;
+    @Bind(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+        ButterKnife.bind(this);
 
         /** 初始化文件夹等环境 */
         CommonUtils.initAppEnvironment();
@@ -35,14 +48,14 @@ public class NavigationActivity extends AppBaseActivity {
     }
 
     private void initView(Bundle savedInstanceState) {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, mToolBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+                this, mDrawerLayout, mToolBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
-        // NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        // navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView.getHeaderView(0).findViewById(R.id.ly_portrait)
+                .setBackgroundColor(getResources().getColor(ThemeHelper.getInstance().getItemBgColor()));
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -70,9 +83,8 @@ public class NavigationActivity extends AppBaseActivity {
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                 if ((System.currentTimeMillis() - mExitTime) > EXIT_INTERVAL) {
@@ -88,47 +100,27 @@ public class NavigationActivity extends AppBaseActivity {
         }
     }
 
-//    @SuppressWarnings("StatementWithEmptyBody")
-//    @Override
-//    public boolean onNavigationItemSelected(MenuItem item) {
-//        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
 
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
 
-//    private static final long EXIT_INTERVAL = 2000L;
-//    private long mExitTime = 0;
-//
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-//            if ((System.currentTimeMillis() - mExitTime) > EXIT_INTERVAL) {
-//                showToast(R.string.common_exit_app);
-//                mExitTime = System.currentTimeMillis();
-//            } else {
-//                finish();
-//                ((BaseApplication) getApplicationContext()).exitApp(true);
-//            }
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }

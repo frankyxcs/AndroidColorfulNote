@@ -55,31 +55,19 @@ public class NoteListV2Fragment extends AppBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_navigation, container, false);
         ButterKnife.bind(this, view);
+        initView();
+
         noteGroupBy(INIT_COUNT);
+        return view;
+    }
 
-//        ArrayList mDataset = new ArrayList<>();
-//        // mDataset.add(getString(R.string.label_navi_login));
-//        mDataset.add(getString(R.string.label_navi_upgrade));
-//        mDataset.add(getString(R.string.label_navi_about));
-//        NavigationAdapter mAdapter2 = new NavigationAdapter(getActivity(), mDataset);
-//
-//        mRecyclerView.setHasFixedSize(true);
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-//        mRecyclerView.setLayoutManager(layoutManager);
-//        mRecyclerView.addItemDecoration(new RecycleViewDivider(
-//                getActivity(), LinearLayoutManager.HORIZONTAL,
-//                getResources().getDimensionPixelOffset(R.dimen.android_divider_height_normal),
-//                ContextCompat.getColor(getActivity(), ThemeHelper.getInstance().getItemBgColor())));
-//        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-//        mRecyclerView.setAdapter(mAdapter2);
-
+    private void initView() {
         // 设置固定大小
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        return view;
     }
 
     private void initData() {

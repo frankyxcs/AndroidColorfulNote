@@ -7,6 +7,8 @@ import java.util.Date;
 
 /**
  * Created by Administrator on 2016/3/22 0022.
+ * <p/>
+ * From:色系表 http://www.mydiyclub.com/color/2_2.htm
  */
 public class ThemeHelper {
     private static ThemeHelper ourInstance = new ThemeHelper();
@@ -118,7 +120,7 @@ public class ThemeHelper {
             default:
                 break;
         }
-        return R.color.red_half_100;
+        return R.color.red_100;
     }
 
     /**

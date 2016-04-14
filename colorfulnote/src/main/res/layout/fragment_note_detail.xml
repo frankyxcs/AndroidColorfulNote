@@ -10,7 +10,7 @@
         android:id="@+id/ly_box"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/blue_half_100">
+        android:background="@color/blue_100">
 
         <EditText
             android:id="@+id/et_content"
@@ -23,9 +23,7 @@
             android:imeOptions="actionDone"
             android:inputType="textMultiLine"
             android:padding="@dimen/android_padding_middle"
-            android:singleLine="false"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey" />
+            android:singleLine="false" />
     </LinearLayout>
 </LinearLayout>
 
