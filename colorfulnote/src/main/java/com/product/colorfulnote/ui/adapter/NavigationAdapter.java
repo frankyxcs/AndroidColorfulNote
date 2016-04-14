@@ -1,6 +1,9 @@
 package com.product.colorfulnote.ui.adapter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,11 +19,14 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/4/1 0001.
  */
+@Deprecated
 public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
+    private LayoutInflater mInflater;
     private ArrayList<String> mDataset;
     private OnRecyclerViewItemClickListener mItemClickListener;
 
-    public NavigationAdapter(ArrayList<String> dataset) {
+    public NavigationAdapter(Context context, ArrayList<String> dataset) {
+        this.mInflater = ((Activity) context).getLayoutInflater();
         this.mDataset = dataset;
     }
 
@@ -31,7 +37,8 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = View.inflate(parent.getContext(), R.layout.listitem_navigation, null);
+        // View view = View.inflate(parent.getContext(), R.layout.listitem_navigation, null);
+        View view = mInflater.inflate(R.layout.listitem_navigation, parent, false);
         view.setOnClickListener(this);
         view.setOnLongClickListener(this);
         ViewHolder holder = new ViewHolder(view);

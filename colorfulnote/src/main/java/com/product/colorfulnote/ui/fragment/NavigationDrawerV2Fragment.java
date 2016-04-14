@@ -94,7 +94,7 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit
         // mDataset.add(getString(R.string.label_navi_login));
         mDataset.add(getString(R.string.label_navi_upgrade));
         mDataset.add(getString(R.string.label_navi_about));
-        mAdapter = new NavigationAdapter(mDataset);
+        mAdapter = new NavigationAdapter(getActivity(), mDataset);
 
         mAdapter.setItemClickListener(new OnRecyclerViewItemClickListener() {
             @Override
@@ -123,7 +123,7 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit
         // CommonUtils.loadImage(mIvPortrait, uri);
         // mTxtName.setText("汤加");
 
-        // mLyPortrait.setBackgroundColor(ThemeHelper.getInstance().getGroupBgColor());
+        // mLyPortrait.setBackgroundColor(ThemeHelper.getInstance().getItemBgColor());
 
         // 设置固定大小
 //        mRecyclerView.setHasFixedSize(true);
@@ -132,7 +132,7 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit
 //        mRecyclerView.addItemDecoration(new RecycleViewDivider(
 //                getActivity(), LinearLayoutManager.HORIZONTAL,
 //                getResources().getDimensionPixelOffset(R.dimen.android_divider_height_normal),
-//                ContextCompat.getColor(getActivity(), ThemeHelper.getInstance().getGroupBgColor())));
+//                ContextCompat.getColor(getActivity(), ThemeHelper.getInstance().getItemBgColor())));
 //        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 //        mRecyclerView.setAdapter(mAdapter);
     }

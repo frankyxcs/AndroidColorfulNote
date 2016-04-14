@@ -2,6 +2,7 @@ package com.product.colorfulnote.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -46,15 +47,8 @@ public class NoteListV2Fragment extends AppBaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mNoteList = new ArrayList<>();
         EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // Indicate that this fragment would like to influence the set of actions in the action bar.
-        setHasOptionsMenu(true);
+        initData();
     }
 
     @Override
@@ -63,7 +57,35 @@ public class NoteListV2Fragment extends AppBaseFragment {
         ButterKnife.bind(this, view);
         noteGroupBy(INIT_COUNT);
 
-        mAdapter = new NoteListAdapter(mNoteList);
+//        ArrayList mDataset = new ArrayList<>();
+//        // mDataset.add(getString(R.string.label_navi_login));
+//        mDataset.add(getString(R.string.label_navi_upgrade));
+//        mDataset.add(getString(R.string.label_navi_about));
+//        NavigationAdapter mAdapter2 = new NavigationAdapter(getActivity(), mDataset);
+//
+//        mRecyclerView.setHasFixedSize(true);
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+//        mRecyclerView.setLayoutManager(layoutManager);
+//        mRecyclerView.addItemDecoration(new RecycleViewDivider(
+//                getActivity(), LinearLayoutManager.HORIZONTAL,
+//                getResources().getDimensionPixelOffset(R.dimen.android_divider_height_normal),
+//                ContextCompat.getColor(getActivity(), ThemeHelper.getInstance().getItemBgColor())));
+//        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        mRecyclerView.setAdapter(mAdapter2);
+
+        // 设置固定大小
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+        return view;
+    }
+
+    private void initData() {
+        mNoteList = new ArrayList<>();
+
+        mAdapter = new NoteListAdapter(getActivity(), mNoteList);
         mAdapter.setItemClickListener(new OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, Object obj) {
@@ -75,12 +97,13 @@ public class NoteListV2Fragment extends AppBaseFragment {
 
             }
         });
+    }
 
-        // 设置固定大小
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(mAdapter);
-        return view;
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // Indicate that this fragment would like to influence the set of actions in the action bar.
+        setHasOptionsMenu(true);
     }
 
     @Override

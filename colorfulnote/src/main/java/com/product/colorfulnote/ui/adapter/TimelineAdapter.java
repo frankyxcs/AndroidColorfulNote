@@ -124,7 +124,7 @@ public class TimelineAdapter extends BaseExpandableListAdapter {
             holder = (GroupViewHolder) view.getTag();
         }
 
-        view.setBackgroundResource(ThemeHelper.getInstance().getGroupBgColor());
+        view.setBackgroundResource(ThemeHelper.getInstance().getItemBgColor());
         holder.ivTitle.setBackgroundResource(ThemeHelper.getInstance().getGroupIconBg());
         holder.txtTitleDate.setText(TimeUtils.getTime(entiy.getNote().getDate().getTime(), TimeUtils.DATE_FORMAT_DAY));
         holder.txtTitleNum.setText(String.format(mContext.getString(R.string.label_group_num), entiy.getCount()));

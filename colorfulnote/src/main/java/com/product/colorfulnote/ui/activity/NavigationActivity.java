@@ -1,7 +1,6 @@
 package com.product.colorfulnote.ui.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -42,7 +41,7 @@ public class NavigationActivity extends AppBaseActivity {
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        // NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         // navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {

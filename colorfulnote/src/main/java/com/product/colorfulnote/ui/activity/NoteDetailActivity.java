@@ -76,7 +76,7 @@ public class NoteDetailActivity extends AppBaseActivity implements IValid {
     }
 
     private void initView() {
-        mLyBox.setBackgroundResource(ThemeHelper.getInstance().getGroupBgColor());
+        mLyBox.setBackgroundResource(ThemeHelper.getInstance().getItemBgColor());
         mEtContent.setText(isHasDetail() ? mNote.getContent() : null);
         mEtContent.setSelection(isHasDetail() ? mNote.getContent().length() : 0);
     }

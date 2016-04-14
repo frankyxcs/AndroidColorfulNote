@@ -97,24 +97,24 @@ public class ThemeHelper {
      *
      * @return
      */
-    public int getGroupBgColor() {
+    public int getItemBgColor() {
         int dayOfWeek = getCurrentDayOfWeek();
 
         switch (dayOfWeek) {
             case 0:
-                return R.color.red_half_100;
+                return R.color.red_100;
             case 1:
-                return R.color.orange_half_100;
+                return R.color.orange_100;
             case 2:
-                return R.color.yellow_half_100;
+                return R.color.yellow_100;
             case 3:
-                return R.color.green_half_100;
+                return R.color.green_100;
             case 4:
-                return R.color.grass_half_100;
+                return R.color.grass_100;
             case 5:
-                return R.color.blue_half_100;
+                return R.color.blue_100;
             case 6:
-                return R.color.purple_half_100;
+                return R.color.purple_100;
             default:
                 break;
         }

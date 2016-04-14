@@ -45,29 +45,11 @@ public class NoteDetailFragment extends AppBaseFragment implements IValid {
     @Bind(R.id.ly_box)
     LinearLayout mLyBox;
 
-    public NoteDetailFragment() {
-    }
-
-    public static NoteDetailFragment newInstance(Note note) {
-        NoteDetailFragment fragment = new NoteDetailFragment();
-        Bundle arguments = new Bundle();
-        arguments.putSerializable(Constants.SPKey.BUNDLE_KEY, note);
-        fragment.setArguments(arguments);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         mNote = (Note) bundle.getSerializable(Constants.SPKey.BUNDLE_KEY);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // Indicate that this fragment would like to influence the set of actions in the action bar.
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -79,13 +61,31 @@ public class NoteDetailFragment extends AppBaseFragment implements IValid {
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // Indicate that this fragment would like to influence the set of actions in the action bar.
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
+    public NoteDetailFragment() {
+    }
+
+    public static NoteDetailFragment newInstance(Note note) {
+        NoteDetailFragment fragment = new NoteDetailFragment();
+        Bundle arguments = new Bundle();
+        arguments.putSerializable(Constants.SPKey.BUNDLE_KEY, note);
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
     private void initView() {
-        mLyBox.setBackgroundResource(ThemeHelper.getInstance().getGroupBgColor());
+        mLyBox.setBackgroundResource(ThemeHelper.getInstance().getItemBgColor());
         mEtContent.setText(isHasDetail() ? mNote.getContent() : null);
         mEtContent.setSelection(isHasDetail() ? mNote.getContent().length() : 0);
     }

@@ -258,7 +258,7 @@ public class NoteListFragment extends AppBaseFragment {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            holder.lyCard.setBackgroundResource(ThemeHelper.getInstance().getGroupBgColor());
+            holder.lyCard.setBackgroundResource(ThemeHelper.getInstance().getItemBgColor());
             holder.ivTitle.setBackgroundResource(ThemeHelper.getInstance().getGroupIconBg());
             holder.txtTitleWeek.setText(ThemeHelper.getInstance().getWeekly(getItem(position).getDate()));
             holder.txtTitleDate.setText(TimeUtils.getTime(getItem(position).getDate().getTime()));

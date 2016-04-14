@@ -53,14 +53,14 @@ public class AboutActivity extends AppBaseActivity {
     }
 
     private void initView() {
-        mTxtAbout.setTextColor(ThemeHelper.getInstance().getGroupBgColor());
+        mTxtAbout.setTextColor(ThemeHelper.getInstance().getItemBgColor());
 
         // 设置还没收缩时状态下字体颜色
         mCollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.black));
         // 设置收缩后Toolbar上字体的颜色
         mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
         // 设置收缩后内容上的颜色
-        // mCollapsingToolbarLayout.setContentScrimColor(ThemeHelper.getInstance().getGroupBgColor());
+        // mCollapsingToolbarLayout.setContentScrimColor(ThemeHelper.getInstance().getItemBgColor());
 
 
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_header);
