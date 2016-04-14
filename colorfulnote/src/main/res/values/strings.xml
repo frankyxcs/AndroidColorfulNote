@@ -43,10 +43,10 @@
     <string name="label_ra_content_defaut">TA很懒，什么都没有留下</string>
     <!-- RecordingActivity end -->
 
-    <string name="label_navi_login">第三方登陆</string>
-    <string name="label_navi_logout">注销</string>
-    <string name="label_navi_upgrade">自升级</string>
-    <string name="label_navi_about">关于</string>
+    <string name="label_nav_login">第三方登陆</string>
+    <string name="label_nav_logout">注销</string>
+    <string name="label_nav_upgrade">自升级</string>
+    <string name="label_nav_about">关于</string>
 
     <!--    <string name="dlg_note_detail_title">是否保存？</string>-->
     <string name="dlg_note_detail_content">是否保存日记？</string>

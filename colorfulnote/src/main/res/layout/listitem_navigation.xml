@@ -19,5 +19,5 @@
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/android_padding_middle"
         android:paddingTop="@dimen/android_padding_middle"
-        android:text="@string/label_navi_login" />
+        android:text="@string/label_nav_login" />
 </android.support.v7.widget.CardView>

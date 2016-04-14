@@ -92,17 +92,17 @@ public class NavigationDrawerV2Fragment extends AppBaseFragment implements IInit
     public void initData() {
         mDataset = new ArrayList<>();
         // mDataset.add(getString(R.string.label_navi_login));
-        mDataset.add(getString(R.string.label_navi_upgrade));
-        mDataset.add(getString(R.string.label_navi_about));
+        mDataset.add(getString(R.string.label_nav_upgrade));
+        mDataset.add(getString(R.string.label_nav_about));
         mAdapter = new NavigationAdapter(getActivity(), mDataset);
 
         mAdapter.setItemClickListener(new OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, Object obj) {
                 String item = (String) obj;
-                if (getString(R.string.label_navi_upgrade).equals(item)) {
+                if (getString(R.string.label_nav_upgrade).equals(item)) {
                     // getAppBaseActivity().showToast(R.string.label_navi_upgrade);
-                } else if (getString(R.string.label_navi_about).equals(item)) {
+                } else if (getString(R.string.label_nav_about).equals(item)) {
                     // getAppBaseActivity().showToast(R.string.label_navi_about);
                     getAppBaseActivity().openActivity(AboutActivity.class);
                 }
