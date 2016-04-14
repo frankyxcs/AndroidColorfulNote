@@ -166,7 +166,6 @@ public class NoteDetailFragment extends AppBaseFragment implements IValid {
                         MobclickAgent.onEvent(context, "click", "MaterialDialog->No");
 
                         mMaterialDialog.dismiss();
-                        getActivity().getSupportFragmentManager().popBackStack();
                     }
                 });
         mMaterialDialog.show();
