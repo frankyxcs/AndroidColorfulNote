@@ -1,6 +1,7 @@
 package com.product.colorfulnote.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,12 +52,14 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogUtils.i(TAG, "onCreate");
         EventBus.getDefault().register(this);
         initData();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        LogUtils.i(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.content_navigation, container, false);
         ButterKnife.bind(this, view);
         initView();
@@ -70,35 +73,6 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
         mSwipeRefresh.setRefreshing(false);
     }
 
-//    SwipeRefreshLayout.OnRefreshListener listener = new SwipeRefreshLayout.OnRefreshListener() {
-//        public void onRefresh() {
-//            noteGroupBy(INIT_COUNT);
-////            new Thread(new Runnable() {
-////                @Override
-////                public void run() {
-////                    try {
-////                        Thread.sleep(3000);
-////                    } catch (Exception e) {
-////
-////                    }
-////                }
-////            }).start();
-//
-//            new Handler().postDelayed(new Runnable() {
-//                public void run() {
-//                    try {
-//                        Thread.sleep(3000);
-//
-//                        mAdapter.notifyDataSetChanged();
-//                        mSwipeRefresh.setRefreshing(false);
-//                    } catch (Exception e) {
-//
-//                    }
-//                }
-//            }, 3000);
-//        }
-//    };
-
     private void initView() {
         // 设置固定大小
         mRecyclerView.setAdapter(mAdapter);
@@ -111,15 +85,21 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
 //        mSwipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
 //                android.R.color.holo_orange_light, android.R.color.holo_red_light);
 
-//        mSwipeRefresh.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                mSwipeRefresh.setRefreshing(true);
-//            }
-//        });
+        // 自动刷新
+        mSwipeRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefresh.setRefreshing(true);
+            }
+        });
 
-//        mSwipeRefresh.setRefreshing(true);
-//        listener.onRefresh();
+        // 模拟拉取数据
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                onRefresh();
+            }
+        }, 3000);
     }
 
     private void initData() {

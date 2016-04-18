@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.product.colorfulnote.R;
 import com.product.colorfulnote.common.Constants;
 import com.product.colorfulnote.db.DBNoteHelper;
@@ -27,7 +29,6 @@ import java.util.Date;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
-import me.drakeet.materialdialog.MaterialDialog;
 
 
 /**
@@ -39,7 +40,7 @@ public class NoteDetailFragment extends AppBaseFragment implements IValid {
     private Note mNote;
     private String mTitle = "标题";
     private String mContent;
-    private MaterialDialog mMaterialDialog;
+    // private MaterialDialog mMaterialDialog;
 
     @Bind(R.id.et_content)
     EditText mEtContent;
@@ -143,32 +144,32 @@ public class NoteDetailFragment extends AppBaseFragment implements IValid {
 
 
     private void showMaterialDialog(final Context context) {
-        mMaterialDialog = new MaterialDialog(context)
-                //.setTitle("MaterialDialog")
-                .setMessage(R.string.dlg_note_detail_content)
-                .setPositiveButton(R.string.common_yes, new View.OnClickListener() {
+        new MaterialDialog.Builder(context)
+                // .title(R.string.dlg_note_detail_content)
+                .content(R.string.dlg_note_detail_content)
+                .positiveText(R.string.common_yes)
+                .negativeText(R.string.common_no)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        dialog.dismiss();
                         MobclickAgent.onEvent(context, "click");
                         MobclickAgent.onEvent(context, "click", "MaterialDialog->Yes");
-
-                        mMaterialDialog.dismiss();
 
                         saveLocal();
                         EventBus.getDefault().post(this);
                         getActivity().getSupportFragmentManager().popBackStack();
                     }
                 })
-                .setNegativeButton(R.string.common_no, new View.OnClickListener() {
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        dialog.dismiss();
                         MobclickAgent.onEvent(context, "click");
                         MobclickAgent.onEvent(context, "click", "MaterialDialog->No");
-
-                        mMaterialDialog.dismiss();
                     }
-                });
-        mMaterialDialog.show();
+                })
+                .show();
     }
 
 

@@ -1,12 +1,10 @@
 package com.product.colorfulnote.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -24,7 +22,6 @@ import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by Administrator on 2016/3/18 0018.
@@ -36,7 +33,7 @@ public class NoteDetailActivity extends AppBaseActivity implements IValid {
     private Note mNote;
     private String mTitle = "标题";
     private String mContent;
-    private MaterialDialog mMaterialDialog;
+    // private MaterialDialog mMaterialDialog;
 
     @Bind(R.id.et_content)
     EditText mEtContent;
@@ -155,31 +152,31 @@ public class NoteDetailActivity extends AppBaseActivity implements IValid {
     }
 
     private void showMaterialDialog() {
-        mMaterialDialog = new MaterialDialog(this)
-                //.setTitle("MaterialDialog")
-                .setMessage(R.string.dlg_note_detail_content)
-                .setPositiveButton(R.string.common_yes, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        MobclickAgent.onEvent(NoteDetailActivity.this, "click");
-                        MobclickAgent.onEvent(NoteDetailActivity.this, "click", "MaterialDialog->Yes");
-
-                        mMaterialDialog.dismiss();
-
-                        saveLocal();
-                        setResult(Activity.RESULT_OK, null);
-                        finish();
-                    }
-                })
-                .setNegativeButton(R.string.common_no, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        MobclickAgent.onEvent(NoteDetailActivity.this, "click");
-                        MobclickAgent.onEvent(NoteDetailActivity.this, "click", "MaterialDialog->No");
-
-                        mMaterialDialog.dismiss();
-                    }
-                });
-        mMaterialDialog.show();
+//        mMaterialDialog = new MaterialDialog(this)
+//                //.setTitle("MaterialDialog")
+//                .setMessage(R.string.dlg_note_detail_content)
+//                .setPositiveButton(R.string.common_yes, new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        MobclickAgent.onEvent(NoteDetailActivity.this, "click");
+//                        MobclickAgent.onEvent(NoteDetailActivity.this, "click", "MaterialDialog->Yes");
+//
+//                        mMaterialDialog.dismiss();
+//
+//                        saveLocal();
+//                        setResult(Activity.RESULT_OK, null);
+//                        finish();
+//                    }
+//                })
+//                .setNegativeButton(R.string.common_no, new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        MobclickAgent.onEvent(NoteDetailActivity.this, "click");
+//                        MobclickAgent.onEvent(NoteDetailActivity.this, "click", "MaterialDialog->No");
+//
+//                        mMaterialDialog.dismiss();
+//                    }
+//                });
+//        mMaterialDialog.show();
     }
 }
