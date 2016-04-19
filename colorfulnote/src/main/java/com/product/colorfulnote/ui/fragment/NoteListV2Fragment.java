@@ -3,9 +3,9 @@ package com.product.colorfulnote.ui.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,10 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.product.colorfulnote.R;
+import com.product.colorfulnote.common.interfaces.OnRecyclerViewItemClickListener;
 import com.product.colorfulnote.db.DBNoteHelper;
 import com.product.colorfulnote.db.gen.Note;
 import com.product.colorfulnote.ui.activity.NavigationActivity;
-import com.product.colorfulnote.ui.adapter.NoteListV2Adapter;
+import com.product.colorfulnote.ui.adapter.NoteListAdapter;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
 import com.product.common.utils.LogUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -28,16 +29,11 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
-import space.sye.z.library.RefreshRecyclerView;
-import space.sye.z.library.adapter.RefreshRecyclerViewAdapter;
-import space.sye.z.library.listener.OnBothRefreshListener;
-import space.sye.z.library.manager.RecyclerMode;
-import space.sye.z.library.manager.RecyclerViewManager;
 
 /**
  * Created by Administrator on 2016-4-13.
  */
-public class NoteListV2Fragment extends AppBaseFragment {
+public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = NoteListV2Fragment.class.getSimpleName();
     private static final int INIT_COUNT = 5;
     private static final int PAGE_COUNT = 5;
@@ -45,14 +41,14 @@ public class NoteListV2Fragment extends AppBaseFragment {
     private static final int LOAD_MORE = 2;
     private static final long DELAY = 1000;
 
-    private NoteListV2Adapter mAdapter;
+    private NoteListAdapter mAdapter;
     private ArrayList<Note> mNoteList;
     private int mCount = INIT_COUNT;
 
     @Bind(R.id.recycler_view)
-    RefreshRecyclerView mRecyclerView;
-//    @Bind(R.id.swipe_refresh)
-//    SwipeRefreshLayout mSwipeRefresh;
+    RecyclerView mRecyclerView;
+    @Bind(R.id.swipe_refresh)
+    SwipeRefreshLayout mSwipeRefresh;
 
     /**
      * 上拉下拉获取数据
@@ -60,11 +56,12 @@ public class NoteListV2Fragment extends AppBaseFragment {
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            noteGroupBy(mCount);
             mAdapter.notifyDataSetChanged();
-            mRecyclerView.onRefreshCompleted();
 
             switch (msg.what) {
                 case PULL_DOWN:
+                    onRefresh();
                     break;
                 case LOAD_MORE:
                     break;
@@ -90,33 +87,31 @@ public class NoteListV2Fragment extends AppBaseFragment {
     }
 
     private void initView() {
-        RecyclerViewManager.with(mAdapter, new LinearLayoutManager(getActivity()))
-                .setMode(RecyclerMode.BOTH)
-                .setOnBothRefreshListener(new OnBothRefreshListener() {
-                    @Override
-                    public void onPullDown() {
-                        refresh();
-                    }
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(mAdapter);
 
-                    @Override
-                    public void onLoadMore() {
-                        loadMore();
-                    }
-                })
-                .setOnItemClickListener(new RefreshRecyclerViewAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(RecyclerView.ViewHolder holder, int position) {
-                        ((NavigationActivity) getActivity()).gotoDetailFragment((Note) mNoteList.get(position));
-                    }
-                })
-                .into(mRecyclerView, getActivity());
+        mSwipeRefresh.setOnRefreshListener(this);
+
+        // 自动刷新
+        mSwipeRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefresh.setRefreshing(true);
+            }
+        });
+        refresh();
+    }
+
+    @Override
+    public void onRefresh() {
+        mSwipeRefresh.setRefreshing(false);
     }
 
     private void refresh() {
         mCount = INIT_COUNT;
         LogUtils.i(TAG, "refresh mCount = " + mCount);
-        Log.i(TAG, "refresh mCount = " + mCount);
-        noteGroupBy(mCount);
+        // noteGroupBy(mCount);
         Message msg = Message.obtain();
         msg.what = PULL_DOWN;
         mHandler.sendMessageDelayed(msg, DELAY);
@@ -125,8 +120,7 @@ public class NoteListV2Fragment extends AppBaseFragment {
     private void loadMore() {
         mCount += PAGE_COUNT;
         LogUtils.i(TAG, "loadMore mCount = " + mCount);
-        Log.i(TAG, "loadMore mCount = " + mCount);
-        noteGroupBy(mCount);
+        // noteGroupBy(mCount);
         Message msg = Message.obtain();
         msg.what = LOAD_MORE;
         mHandler.sendMessageDelayed(msg, DELAY);
@@ -134,8 +128,19 @@ public class NoteListV2Fragment extends AppBaseFragment {
 
     private void initData() {
         mNoteList = new ArrayList<>();
-        noteGroupBy(mCount);
-        mAdapter = new NoteListV2Adapter(getActivity(), mNoteList);
+        // noteGroupBy(mCount);
+        mAdapter = new NoteListAdapter(getActivity(), mNoteList);
+        mAdapter.setItemClickListener(new OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, Object obj) {
+                ((NavigationActivity) getActivity()).gotoDetailFragment((Note) obj);
+            }
+
+            @Override
+            public void onItemLongClick(View view, Object obj) {
+
+            }
+        });
     }
 
     @Override

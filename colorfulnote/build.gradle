@@ -125,7 +125,7 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'de.greenrobot:greendao:2.0.0'
     compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'com.github.Syehunter:RecyclerViewManager:0.1.7'
+    // compile 'com.github.Syehunter:RecyclerViewManager:0.1.7'
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.7@aar') {
         transitive = true
     }
