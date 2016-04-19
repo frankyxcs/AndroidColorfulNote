@@ -2,10 +2,10 @@ package com.product.colorfulnote.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,11 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.product.colorfulnote.R;
-import com.product.colorfulnote.common.interfaces.OnRecyclerViewItemClickListener;
 import com.product.colorfulnote.db.DBNoteHelper;
 import com.product.colorfulnote.db.gen.Note;
 import com.product.colorfulnote.ui.activity.NavigationActivity;
-import com.product.colorfulnote.ui.adapter.NoteListAdapter;
+import com.product.colorfulnote.ui.adapter.NoteListV2Adapter;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
 import com.product.common.utils.LogUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -29,25 +28,49 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import space.sye.z.library.RefreshRecyclerView;
+import space.sye.z.library.adapter.RefreshRecyclerViewAdapter;
+import space.sye.z.library.listener.OnBothRefreshListener;
+import space.sye.z.library.manager.RecyclerMode;
+import space.sye.z.library.manager.RecyclerViewManager;
 
 /**
  * Created by Administrator on 2016-4-13.
  */
-public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class NoteListV2Fragment extends AppBaseFragment {
     private static final String TAG = NoteListV2Fragment.class.getSimpleName();
     private static final int INIT_COUNT = 5;
     private static final int PAGE_COUNT = 5;
-    private static final long DELAY = 100;
+    private static final int PULL_DOWN = 1;
+    private static final int LOAD_MORE = 2;
+    private static final long DELAY = 1000;
 
-    private NoteListAdapter mAdapter;
+    private NoteListV2Adapter mAdapter;
     private ArrayList<Note> mNoteList;
     private int mCount = INIT_COUNT;
 
     @Bind(R.id.recycler_view)
-    RecyclerView mRecyclerView;
+    RefreshRecyclerView mRecyclerView;
+//    @Bind(R.id.swipe_refresh)
+//    SwipeRefreshLayout mSwipeRefresh;
 
-    @Bind(R.id.swipe_refresh)
-    SwipeRefreshLayout mSwipeRefresh;
+    /**
+     * 上拉下拉获取数据
+     */
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            mAdapter.notifyDataSetChanged();
+            mRecyclerView.onRefreshCompleted();
+
+            switch (msg.what) {
+                case PULL_DOWN:
+                    break;
+                case LOAD_MORE:
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,57 +89,53 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
         return view;
     }
 
-    @Override
-    public void onRefresh() {
-        noteGroupBy(INIT_COUNT);
-        mAdapter.notifyDataSetChanged();
-        mSwipeRefresh.setRefreshing(false);
+    private void initView() {
+        RecyclerViewManager.with(mAdapter, new LinearLayoutManager(getActivity()))
+                .setMode(RecyclerMode.BOTH)
+                .setOnBothRefreshListener(new OnBothRefreshListener() {
+                    @Override
+                    public void onPullDown() {
+                        refresh();
+                    }
+
+                    @Override
+                    public void onLoadMore() {
+                        loadMore();
+                    }
+                })
+                .setOnItemClickListener(new RefreshRecyclerViewAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(RecyclerView.ViewHolder holder, int position) {
+                        ((NavigationActivity) getActivity()).gotoDetailFragment((Note) mNoteList.get(position));
+                    }
+                })
+                .into(mRecyclerView, getActivity());
     }
 
-    private void initView() {
-        // 设置固定大小
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(layoutManager);
+    private void refresh() {
+        mCount = INIT_COUNT;
+        LogUtils.i(TAG, "refresh mCount = " + mCount);
+        Log.i(TAG, "refresh mCount = " + mCount);
+        noteGroupBy(mCount);
+        Message msg = Message.obtain();
+        msg.what = PULL_DOWN;
+        mHandler.sendMessageDelayed(msg, DELAY);
+    }
 
-        mSwipeRefresh.setOnRefreshListener(this);
-//        mSwipeRefresh.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
-//                android.R.color.holo_orange_light, android.R.color.holo_red_light);
-
-        // 自动刷新
-        mSwipeRefresh.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefresh.setRefreshing(true);
-            }
-        });
-
-        // 模拟拉取数据
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                onRefresh();
-            }
-        }, 3000);
+    private void loadMore() {
+        mCount += PAGE_COUNT;
+        LogUtils.i(TAG, "loadMore mCount = " + mCount);
+        Log.i(TAG, "loadMore mCount = " + mCount);
+        noteGroupBy(mCount);
+        Message msg = Message.obtain();
+        msg.what = LOAD_MORE;
+        mHandler.sendMessageDelayed(msg, DELAY);
     }
 
     private void initData() {
         mNoteList = new ArrayList<>();
-
-        mAdapter = new NoteListAdapter(getActivity(), mNoteList);
-        mAdapter.setItemClickListener(new OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, Object obj) {
-                ((NavigationActivity) getActivity()).gotoDetailFragment((Note) obj);
-            }
-
-            @Override
-            public void onItemLongClick(View view, Object obj) {
-
-            }
-        });
+        noteGroupBy(mCount);
+        mAdapter = new NoteListV2Adapter(getActivity(), mNoteList);
     }
 
     @Override
@@ -138,6 +157,11 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     * 获取指定长度的列表数据
+     *
+     * @param count
+     */
     private void noteGroupBy(final int count) {
         mNoteList.clear();
         List<Note> noteList = DBNoteHelper.getInstance().loadAllByDate();

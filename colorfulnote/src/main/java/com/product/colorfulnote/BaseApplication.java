@@ -30,7 +30,7 @@ public class BaseApplication extends Application {
     }
 
     private void init() {
-        LogUtils.init(BuildConfig.LOG_DEBUG, BuildConfig.APPLICATION_ID);
+        LogUtils.init(BuildConfig.DEBUG, BuildConfig.APPLICATION_ID);
         // CrashException.getInstance().init(this);
         DBManager.getInstance().init(this);
         FrescoManager.getInstance().init(this);
