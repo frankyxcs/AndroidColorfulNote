@@ -1,14 +1,12 @@
-package com.product.colorfulnote.ui.base;
+package com.product.common.ui.base;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.product.common.ui.base.BaseFragment;
-
-
-public abstract class AppBaseFragment extends BaseFragment {
+public abstract class BaseFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,15 +21,11 @@ public abstract class AppBaseFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        MobclickAgent.onPageStart(this.getClass().getSimpleName());
-//        MobclickAgent.onResume(getActivity());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-//        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
-//        MobclickAgent.onPause(getActivity());
     }
 
     @Override
@@ -39,7 +33,7 @@ public abstract class AppBaseFragment extends BaseFragment {
         super.onDestroy();
     }
 
-    public AppBaseActivity getAppBaseActivity() {
-        return (AppBaseActivity) getActivity();
+    public BaseActivity getBaseActivity() {
+        return (BaseActivity) getActivity();
     }
 }

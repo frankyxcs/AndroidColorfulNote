@@ -86,6 +86,12 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
         return view;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        getAppBaseActivity().dismissLoadingDialog();
+    }
+
     private void initView() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.product.colorfulnote.R;
 import com.product.colorfulnote.ui.helper.ThemeHelper;
 import com.product.common.ui.base.BaseActivity;
@@ -13,7 +14,8 @@ import com.product.common.ui.base.BaseActivity;
  */
 public abstract class AppBaseActivity extends BaseActivity {
     private static final String TAG = AppBaseActivity.class.getSimpleName();
-    protected Toolbar mToolBar;
+    protected Toolbar mToolBar = null;
+    private MaterialDialog mLoadingDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +23,39 @@ public abstract class AppBaseActivity extends BaseActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        dismissLoadingDialog();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
         initToolbar();
+    }
+
+
+    public void showLoadingDialog() {
+        if (null == mLoadingDialog) {
+            // mLoadingDialog = new MaterialDialog.Builder(this).build();
+            mLoadingDialog = new MaterialDialog.Builder(this)
+                    // .title("刷新")
+                    .content(R.string.common_loading_tips)
+                    .progress(true, 0)
+                    .show();
+        }
+    }
+
+    public void dismissLoadingDialog() {
+        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+            mLoadingDialog.dismiss();
+        }
+        mLoadingDialog = null;
     }
 
     private void initToolbar() {
@@ -43,26 +75,4 @@ public abstract class AppBaseActivity extends BaseActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(false);
         }
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 }
