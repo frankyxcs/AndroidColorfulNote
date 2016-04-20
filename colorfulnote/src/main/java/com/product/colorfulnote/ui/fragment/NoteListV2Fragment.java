@@ -41,6 +41,10 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
     private static final int LOAD_MORE = 2;
     private static final long DELAY = 1000;
 
+    private int mLastVisibleItem;
+    private LinearLayoutManager mLayoutManager;
+
+    // private ArrayList<Note> mAllNoteList;
     private NoteListAdapter mAdapter;
     private ArrayList<Note> mNoteList;
     private int mCount = INIT_COUNT;
@@ -56,14 +60,19 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            noteGroupBy(mCount);
-            mAdapter.notifyDataSetChanged();
+            if (isMore(mCount)) {
+                noteGroupBy(mCount);
+                mAdapter.notifyDataSetChanged();
+            } else {
+                getAppBaseActivity().showToast(R.string.common_no_more_date);
+            }
 
             switch (msg.what) {
                 case PULL_DOWN:
-                    onRefresh();
+                    mSwipeRefresh.setRefreshing(false);
                     break;
                 case LOAD_MORE:
+                    getAppBaseActivity().dismissLoadingDialog();
                     break;
             }
         }
@@ -90,28 +99,54 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
     public void onPause() {
         super.onPause();
         getAppBaseActivity().dismissLoadingDialog();
+        getAppBaseActivity().cancelToast();
     }
 
     private void initView() {
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (RecyclerView.SCROLL_STATE_IDLE == newState
+                        && (mLastVisibleItem + 1) == mAdapter.getItemCount()) {
+                    getAppBaseActivity().showLoadingDialog();
+                    loadMore();
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                mLastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+            }
+        });
 
         mSwipeRefresh.setOnRefreshListener(this);
 
-        // 自动刷新
+        autoRefresh();
+    }
+
+    @Override
+    public void onRefresh() {
+        refresh();
+    }
+
+    /**
+     * 自动刷新
+     */
+    private void autoRefresh() {
         mSwipeRefresh.post(new Runnable() {
             @Override
             public void run() {
                 mSwipeRefresh.setRefreshing(true);
             }
         });
-        refresh();
-    }
 
-    @Override
-    public void onRefresh() {
-        mSwipeRefresh.setRefreshing(false);
+        onRefresh();
     }
 
     private void refresh() {
@@ -182,6 +217,20 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
         for (int i = 0; i < count && i < noteList.size(); i++) {
             mNoteList.add(noteList.get(i));
         }
+    }
+
+    /**
+     * @return true 表示还有数据 flase表示没有数据
+     */
+    private boolean isMore(final int count) {
+        List<Note> noteList = DBNoteHelper.getInstance().loadAllByDate();
+        if (noteList.size() > count) {
+            return true;
+        } else {
+            int page = (count - noteList.size()) / PAGE_COUNT;
+            return 0 == page ? true : false;
+        }
+        // return (noteList.size() > mNoteList.size()) ? true : false;
     }
 
     @Override

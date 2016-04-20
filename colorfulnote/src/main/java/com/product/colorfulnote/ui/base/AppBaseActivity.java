@@ -25,12 +25,12 @@ public abstract class AppBaseActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        dismissLoadingDialog();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        dismissLoadingDialog();
     }
 
     @Override
