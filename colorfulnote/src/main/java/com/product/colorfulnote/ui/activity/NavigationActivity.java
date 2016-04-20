@@ -17,6 +17,7 @@ import com.product.colorfulnote.ui.fragment.NoteDetailFragment;
 import com.product.colorfulnote.ui.fragment.NoteListV2Fragment;
 import com.product.colorfulnote.ui.helper.ThemeHelper;
 import com.product.colorfulnote.utils.CommonUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,6 +46,18 @@ public class NavigationActivity extends AppBaseActivity
         PushProxy.getInstance().startWork(this);
 
         initView(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     private void initView(Bundle savedInstanceState) {

@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/4/1 0001.
  */
+@Deprecated
 public class NoteListV2Adapter extends RecyclerView.Adapter<NoteListV2Adapter.ViewHolder> {
     private Context mContext;
     private LayoutInflater mInflater;

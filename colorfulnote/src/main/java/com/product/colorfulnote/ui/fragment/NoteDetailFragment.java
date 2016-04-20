@@ -70,6 +70,20 @@ public class NoteDetailFragment extends AppBaseFragment implements IValid {
     }
 
     @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        MobclickAgent.onPageStart(TAG);
+    }
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        MobclickAgent.onPageEnd(TAG);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);

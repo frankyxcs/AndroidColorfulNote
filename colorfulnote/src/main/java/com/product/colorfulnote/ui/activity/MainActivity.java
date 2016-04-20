@@ -23,6 +23,7 @@ import com.umeng.analytics.MobclickAgent;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+@Deprecated
 public class MainActivity extends AppBaseActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 

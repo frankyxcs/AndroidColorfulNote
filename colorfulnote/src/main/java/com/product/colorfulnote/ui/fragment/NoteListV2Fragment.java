@@ -44,7 +44,6 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
     private int mLastVisibleItem;
     private LinearLayoutManager mLayoutManager;
 
-    // private ArrayList<Note> mAllNoteList;
     private NoteListAdapter mAdapter;
     private ArrayList<Note> mNoteList;
     private int mCount = INIT_COUNT;
@@ -92,14 +91,43 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
         View view = inflater.inflate(R.layout.content_navigation, container, false);
         ButterKnife.bind(this, view);
         initView();
+        autoRefresh();
         return view;
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // Indicate that this fragment would like to influence the set of actions in the action bar.
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        MobclickAgent.onPageStart(TAG);
+    }
+
+    @Override
     public void onPause() {
+        // TODO Auto-generated method stub
         super.onPause();
+        MobclickAgent.onPageEnd(TAG);
         getAppBaseActivity().dismissLoadingDialog();
         getAppBaseActivity().cancelToast();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initView() {
@@ -107,12 +135,15 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                LogUtils.i(TAG, "onScrollStateChanged mLastVisibleItem = " + mLastVisibleItem
+                        + " ;getItemCount =" + mAdapter.getItemCount());
                 if (RecyclerView.SCROLL_STATE_IDLE == newState
                         && (mLastVisibleItem + 1) == mAdapter.getItemCount()) {
+                    LogUtils.i(TAG, "onScrollStateChanged loadMore");
                     getAppBaseActivity().showLoadingDialog();
                     loadMore();
                 }
@@ -122,12 +153,11 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 mLastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+                LogUtils.i(TAG, "onScrolled mLastVisibleItem = " + mLastVisibleItem);
             }
         });
 
         mSwipeRefresh.setOnRefreshListener(this);
-
-        autoRefresh();
     }
 
     @Override
@@ -139,14 +169,16 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
      * 自动刷新
      */
     private void autoRefresh() {
-        mSwipeRefresh.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefresh.setRefreshing(true);
-            }
-        });
+        if (mNoteList.isEmpty()) {
+            mSwipeRefresh.post(new Runnable() {
+                @Override
+                public void run() {
+                    mSwipeRefresh.setRefreshing(true);
+                }
+            });
 
-        onRefresh();
+            onRefresh();
+        }
     }
 
     private void refresh() {
@@ -184,25 +216,6 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
         });
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // Indicate that this fragment would like to influence the set of actions in the action bar.
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
     /**
      * 获取指定长度的列表数据
      *
@@ -230,7 +243,6 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
             int page = (count - noteList.size()) / PAGE_COUNT;
             return 0 == page ? true : false;
         }
-        // return (noteList.size() > mNoteList.size()) ? true : false;
     }
 
     @Override
