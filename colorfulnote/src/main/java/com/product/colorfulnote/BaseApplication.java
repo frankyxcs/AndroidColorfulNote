@@ -3,6 +3,7 @@ package com.product.colorfulnote;
 import android.app.Application;
 
 import com.product.colorfulnote.db.DBManager;
+import com.product.colorfulnote.exception.CrashException;
 import com.product.colorfulnote.module.fresco.FrescoManager;
 import com.product.colorfulnote.thridpart.statistics.StatisticsProxy;
 import com.product.colorfulnote.thridpart.update.UpdateProxy;
@@ -31,7 +32,7 @@ public class BaseApplication extends Application {
 
     private void init() {
         LogUtils.init(BuildConfig.DEBUG, BuildConfig.APPLICATION_ID);
-        // CrashException.getInstance().init(this);
+        CrashException.getInstance().init(this);
         DBManager.getInstance().init(this);
         FrescoManager.getInstance().init(this);
         // Notify.getInstance().init(this);

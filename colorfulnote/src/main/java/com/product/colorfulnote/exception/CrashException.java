@@ -7,6 +7,8 @@ import android.content.Intent;
 
 import com.product.colorfulnote.BaseApplication;
 import com.product.colorfulnote.ui.activity.SplashActivity;
+import com.product.common.utils.LogUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 
@@ -16,7 +18,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
  * @author tangjy
  */
 public class CrashException implements UncaughtExceptionHandler {
-    public static final String TAG = "CrashException";
+    public static final String TAG = CrashException.class.getSimpleName();
     private static final long RESTART_DELAY = 100L;
     private static CrashException sInstance;
     private Context mContext;
@@ -57,8 +59,8 @@ public class CrashException implements UncaughtExceptionHandler {
         if (ex == null) {
             return false;
         }
-//        LogUtils.i(TAG, "handleException");
-//        MobclickAgent.reportError(mContext, ex);
+        LogUtils.i(TAG, "handleException");
+        MobclickAgent.reportError(mContext, ex);
         ex.printStackTrace();
 
         // 重新启动应用
