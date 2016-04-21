@@ -20,6 +20,7 @@ import com.product.colorfulnote.db.gen.Note;
 import com.product.colorfulnote.ui.activity.NavigationActivity;
 import com.product.colorfulnote.ui.adapter.NoteListAdapter;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
+import com.product.colorfulnote.ui.base.BaseEvent;
 import com.product.common.utils.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -41,9 +42,7 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
     private static final int LOAD_MORE = 2;
     private static final long DELAY = 1000;
 
-    private int mLastVisibleItem;
     private LinearLayoutManager mLayoutManager;
-
     private NoteListAdapter mAdapter;
     private ArrayList<Note> mNoteList;
     private int mCount = INIT_COUNT;
@@ -139,10 +138,13 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                LogUtils.i(TAG, "onScrollStateChanged mLastVisibleItem = " + mLastVisibleItem
+                int lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+                LogUtils.i(TAG, "onScrollStateChanged lastVisibleItem = " + lastVisibleItem);
+
+                LogUtils.i(TAG, "onScrollStateChanged lastVisibleItem = " + lastVisibleItem
                         + " ;getItemCount =" + mAdapter.getItemCount());
                 if (RecyclerView.SCROLL_STATE_IDLE == newState
-                        && (mLastVisibleItem + 1) == mAdapter.getItemCount()) {
+                        && (lastVisibleItem + 1) == mAdapter.getItemCount()) {
                     LogUtils.i(TAG, "onScrollStateChanged loadMore");
                     getAppBaseActivity().showLoadingDialog();
                     loadMore();
@@ -152,8 +154,6 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                mLastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
-                LogUtils.i(TAG, "onScrolled mLastVisibleItem = " + mLastVisibleItem);
             }
         });
 
@@ -262,13 +262,13 @@ public class NoteListV2Fragment extends AppBaseFragment implements SwipeRefreshL
             ((NavigationActivity) getActivity()).gotoDetailFragment(null);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-    public void onEventMainThread(NoteDetailFragment event) {
-        noteGroupBy(INIT_COUNT);
+    public void onEventMainThread(BaseEvent event) {
+        noteGroupBy(mCount);
         mAdapter.notifyDataSetChanged();
+        // autoRefresh();
         LogUtils.i(TAG, "onEventMainThread");
     }
 }

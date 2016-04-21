@@ -1,6 +1,7 @@
 package com.product.colorfulnote.ui.activity;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +25,7 @@ import butterknife.ButterKnife;
 
 public class NavigationActivity extends AppBaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = NavigationActivity.class.getSimpleName();
     public static final String LIST_FRAGMENT = "ListFragment";
     public static final String DETAIL_FRAGMENT = "DetailFragment";
 
@@ -70,7 +72,7 @@ public class NavigationActivity extends AppBaseActivity
                 .setBackgroundColor(getResources().getColor(ThemeHelper.getInstance().getItemBgColor()));
         // mNavigationView.setNavigationItemSelectedListener(this);
 
-        if (savedInstanceState == null) {
+        if (null == savedInstanceState) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, Fragment.instantiate(this, NoteListV2Fragment.class.getName(), null), LIST_FRAGMENT)
                     .commit();
@@ -83,16 +85,44 @@ public class NavigationActivity extends AppBaseActivity
     }
 
     public void gotoDetailFragment(Note note) {
+        Fragment fragmentList = getSupportFragmentManager().findFragmentByTag(LIST_FRAGMENT);
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out, R.anim.push_right_in, R.anim.push_right_out)
-                .replace(R.id.container, NoteDetailFragment.newInstance(note), DETAIL_FRAGMENT)
+                .hide(fragmentList)
+                .add(R.id.container, NoteDetailFragment.newInstance(note), DETAIL_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }
 
 
+//    private static final long EXIT_INTERVAL = 2000L;
+//    private long mExitTime = 0;
+//
+//    @Override
+//    public void onBackPressed() {
+//        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            mDrawerLayout.closeDrawer(GravityCompat.START);
+//        } else {
+//            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+//                if ((System.currentTimeMillis() - mExitTime) > EXIT_INTERVAL) {
+//                    showToast(R.string.common_exit_app);
+//                    mExitTime = System.currentTimeMillis();
+//                } else {
+//                    finish();
+//                    ((BaseApplication) getApplicationContext()).exitApp(true);
+//                }
+//            } else {
+//                super.onBackPressed();
+//            }
+//        }
+//    }
+
+
+    // 时间间隔
     private static final long EXIT_INTERVAL = 2000L;
-    private long mExitTime = 0;
+    // 需要监听几次点击事件数组的长度就为几
+    // 如果要监听双击事件则数组长度为2，如果要监听3次连续点击事件则数组长度为3...
+    long[] mHints = new long[2];
 
     @Override
     public void onBackPressed() {
@@ -100,9 +130,12 @@ public class NavigationActivity extends AppBaseActivity
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-                if ((System.currentTimeMillis() - mExitTime) > EXIT_INTERVAL) {
+                // 将mHints数组内的所有元素左移一个位置
+                System.arraycopy(mHints, 1, mHints, 0, mHints.length - 1);
+                // 获得当前系统已经启动的时间
+                mHints[mHints.length - 1] = SystemClock.uptimeMillis();
+                if ((SystemClock.uptimeMillis() - mHints[0]) > EXIT_INTERVAL) {
                     showToast(R.string.common_exit_app);
-                    mExitTime = System.currentTimeMillis();
                 } else {
                     finish();
                     ((BaseApplication) getApplicationContext()).exitApp(true);

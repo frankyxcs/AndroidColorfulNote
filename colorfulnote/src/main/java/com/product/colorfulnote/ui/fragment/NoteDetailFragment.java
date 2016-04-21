@@ -19,6 +19,7 @@ import com.product.colorfulnote.common.Constants;
 import com.product.colorfulnote.db.DBNoteHelper;
 import com.product.colorfulnote.db.gen.Note;
 import com.product.colorfulnote.ui.base.AppBaseFragment;
+import com.product.colorfulnote.ui.base.BaseEvent;
 import com.product.colorfulnote.ui.helper.ThemeHelper;
 import com.product.common.interfaces.IValid;
 import com.product.common.utils.StringUtils;
@@ -171,7 +172,7 @@ public class NoteDetailFragment extends AppBaseFragment implements IValid {
                         MobclickAgent.onEvent(context, "click", "MaterialDialog->Yes");
 
                         saveLocal();
-                        EventBus.getDefault().post(this);
+                        EventBus.getDefault().post(new BaseEvent());
                         getActivity().getSupportFragmentManager().popBackStack();
                     }
                 })
